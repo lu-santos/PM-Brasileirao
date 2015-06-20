@@ -5,13 +5,10 @@
  */
 package modelo.dao;
 
-import java.sql.Connection;
-
 /**
  *
  * @author Amanda
  */
-public interface ConexaoDAO {
-    public void abrirConexao() throws Exception;
-    public void fecharConexao() throws Exception;   
+public class EquipeDAO {
+    
 }
