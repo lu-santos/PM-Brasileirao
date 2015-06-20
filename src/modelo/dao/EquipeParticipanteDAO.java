@@ -6,35 +6,36 @@
 package modelo.dao;
 
 import java.util.List;
+import modelo.entidade.EquipeParticipante;
 
 /**
  *
  * @author Amanda
  */
-public class EquipeParticipanteDAO implements BaseCrudDAO<EquipeParticipanteDAO>{
+public class EquipeParticipanteDAO implements BaseCrudDAO<EquipeParticipante>{
 
     @Override
-    public void incluir(EquipeParticipanteDAO t) throws Exception {
+    public void incluir(EquipeParticipante t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void atualizar(EquipeParticipanteDAO t) throws Exception {
+    public void atualizar(EquipeParticipante t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public EquipeParticipanteDAO visualizar() throws Exception {
+    public EquipeParticipante visualizar() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void excluir(EquipeParticipanteDAO t) throws Exception {
+    public void excluir(EquipeParticipante t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<EquipeParticipanteDAO> listar() throws Exception {
+    public List<EquipeParticipante> listar() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
