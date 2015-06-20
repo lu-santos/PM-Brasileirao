@@ -48,6 +48,9 @@ public class Performance {
         this.visitante = visitante;
         this.mandante = mandante;
     }
+    
+    public Performance(){
+    }
 
     public int getIdParticipante() {
         return idParticipante;

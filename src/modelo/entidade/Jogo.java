@@ -29,6 +29,9 @@ public class Jogo {
         this.golMandante = golMandante;
         this.golVisitante = golVisitante;
     }
+    
+    public Jogo(){
+    }
 
     public int getIdJogo() {
         return idJogo;

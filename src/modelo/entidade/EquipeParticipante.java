@@ -20,6 +20,9 @@ public class EquipeParticipante {
         this.idCampeonato = idCampeonato;
     }
 
+    public EquipeParticipante(){ 
+    }
+    
     public int getIdParticipante() {
         return idParticipante;
     }

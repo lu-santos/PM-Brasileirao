@@ -24,6 +24,9 @@ public class Equipe {
         this.indicador = indicador;
     }
 
+    public Equipe(){
+    }
+    
     public int getIdEquipe() {
         return idEquipe;
     }
