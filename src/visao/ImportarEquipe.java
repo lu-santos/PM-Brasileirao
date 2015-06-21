@@ -10,6 +10,8 @@ package visao;
 import controlador.EquipeEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import modelo.dao.LeitorDAO;
+import modelo.dao.LeitorDeEquipe;
 
 /**
  *
@@ -22,7 +24,7 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
      */
     
     private DefaultListModel listaArquivos = new DefaultListModel();
-    private EquipeEvent equipeEvento = new EquipeEvent();
+    private EquipeEvent equipeEvento;
     private String nomeArquivo = "equipes.txt";
     
     public ImportarEquipe() {
@@ -101,7 +103,9 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
-        equipeEvento.importarEquipe();
+        LeitorDAO leitor = new LeitorDeEquipe(nomeArquivo);
+        equipeEvento = new EquipeEvent(leitor);
+        equipeEvento.ImportarEquipe();
         JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");  
     }//GEN-LAST:event_btnImportarActionPerformed
 

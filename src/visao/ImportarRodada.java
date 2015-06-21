@@ -37,12 +37,9 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
             arquivos = "Rodada" + " " + i;
             listaArquivos.addElement(arquivos);
         }
-        
         listaArquivoRodadas.setModel(listaArquivos);
-        
         if(nomeArquivo == null)
             listaArquivoRodadas.setSelectedIndex(0);
-        
     }
 
     /**
