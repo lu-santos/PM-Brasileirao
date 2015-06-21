@@ -24,9 +24,10 @@ import modelo.entidade.Equipe;
 public class LeitorDeEquipe implements LeitorDAO{
     private EquipeDAO equipeDAO;
     private CampeonatoDAO campeonatoDAO;
-    String nomeArquivo;
+    private String nomeArquivo;
+    private ConexaoDAO conexao = new ConexaoPostgre();
     
-    public LeitorDeEquipe(String nomeArquivo, ConexaoDAO conexao) {
+    public LeitorDeEquipe(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
         equipeDAO = new EquipeDAO(conexao);
         campeonatoDAO = new CampeonatoDAO(conexao);

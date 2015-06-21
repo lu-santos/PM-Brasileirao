@@ -19,13 +19,16 @@ import modelo.entidade.Rodada;
  * @author Amanda
  */
 public class RodadaEvent{
+   
     private LeitorDAO leitor;
-    
-    public RodadaEvent(LeitorDAO leitor) {
-        this.leitor = leitor;
+    private String nomeArquivo;    
+
+    public RodadaEvent(String nomeArquivo) {
+        this.nomeArquivo = nomeArquivo;
+        this.leitor = new LeitorDeJogos(nomeArquivo);
     }
 
-    public void ImportarRodada() {
+    public void ImportarRodada(String nomeArquivo) {
         leitor.lerArquivo();        
     }
 }

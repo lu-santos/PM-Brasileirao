@@ -29,7 +29,6 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
     private EquipeEvent equipeEvento;
     private String nomeArquivo = "equipes.txt";
     private String caminhoDoArquivo = "arquivos_de_leitura\\equipes.txt";
-    private ConexaoDAO conexao = new ConexaoPostgre();
     
     public ImportarEquipe() {
         initComponents();
@@ -107,8 +106,7 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
-        LeitorDAO leitor = new LeitorDeEquipe(caminhoDoArquivo, conexao);
-        equipeEvento = new EquipeEvent(leitor);
+        equipeEvento = new EquipeEvent(caminhoDoArquivo);
         equipeEvento.ImportarEquipe();
         JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");  
     }//GEN-LAST:event_btnImportarActionPerformed

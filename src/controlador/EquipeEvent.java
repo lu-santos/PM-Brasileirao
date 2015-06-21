@@ -15,9 +15,11 @@ import modelo.dao.LeitorDeEquipe;
  */
 public class EquipeEvent {
     private LeitorDAO leitor;
+    private String nomeArquivo;
     
-    public EquipeEvent(LeitorDAO leitor) {
-        this.leitor = leitor;
+    public EquipeEvent(String nomeArquivo) {
+        this.nomeArquivo = nomeArquivo;
+        this.leitor = new LeitorDeEquipe(nomeArquivo);
     }
 
     public void ImportarEquipe() {
