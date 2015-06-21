@@ -43,6 +43,10 @@ public class Rodada {
         return idRodada;
     }
 
+    public void setIdRodada(int idRodada) {
+        this.idRodada = idRodada;
+    }
+
     public int getIdTurno() {
         return idTurno;
     }

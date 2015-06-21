@@ -58,6 +58,10 @@ public class Jogo {
         return idJogo;
     }
 
+    public void setIdJogo(int idJogo) {
+        this.idJogo = idJogo;
+    }
+
     public int getIdRodada() {
         return idRodada;
     }

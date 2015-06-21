@@ -28,6 +28,10 @@ public class Turno {
         return idTurno;
     }
 
+    public void setIdTurno(int idTurno) {
+        this.idTurno = idTurno;
+    }
+
     public int getIdCampeonato() {
         return idCampeonato;
     }

@@ -80,6 +80,10 @@ public class Performance {
         return idPerformance;
     }
 
+    public void setIdPerformance(int idPerformance) {
+        this.idPerformance = idPerformance;
+    }
+
     public int getIdTurno() {
         return idTurno;
     }

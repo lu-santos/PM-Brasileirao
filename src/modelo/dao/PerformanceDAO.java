@@ -7,6 +7,9 @@ package modelo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import modelo.entidade.Performance;
 
@@ -68,12 +71,74 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
 
     @Override
     public List<Performance> listar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = null;
+        ResultSet registro = null;
+        conectar = conexao.abrirConexao();
+        query = "SELECT * FROM " + nomeDaTabela; 
+        List<Performance> performances = new ArrayList<>();
+        
+        try{
+            stmt = conectar.prepareStatement(query);
+            registro = stmt.executeQuery();
+            while(registro.next()){
+                Performance performance = registrarDados(registro);
+                performances.add(registrarDados(registro));
+            }
+        }catch(SQLException e){
+            System.out.println("Erro na listagem " + e.getMessage());
+        }finally{
+            conexao.fecharConexao();
+        }
+        return performances; 
     }
 
     @Override
     public Performance getRegistro(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = null;
+        ResultSet registro = null;
+        
+        conectar = conexao.abrirConexao();
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_performance = " + id; 
+        Performance performance = null;
+        try{
+            stmt = conectar.prepareStatement(query);
+            registro = stmt.executeQuery();
+            while(registro.next()){
+                performance = registrarDados(registro);
+            }
+        }catch(SQLException e){
+            System.out.println("Erro na listagem " + e.getMessage());
+        }finally{
+            conexao.fecharConexao();
+        }
+        return performance; 
     }
-  
+    
+    private Performance registrarDados(ResultSet registro) throws SQLException {
+        Performance performance;
+        int id_performance = registro.getInt("id_performance");
+        int id_rodada = registro.getInt("id_rodada");
+        int id_turno = registro.getInt("id_turno");
+        int id_campeonato = registro.getInt("id_campeonato");
+        int id_equipe = registro.getInt("id_equipe");
+        int id_participante = registro.getInt("id_participante");
+        int pontos_ganhos = registro.getInt("pontos_ganhos");
+        int vitorias = registro.getInt("vitorias");
+        int derrotas = registro.getInt("derrotas");
+        int empates = registro.getInt("empates");
+        int jogos = registro.getInt("jogos");
+        int gols_pro = registro.getInt("gols_pro");
+        int gols_contra = registro.getInt("gols_contra");
+        String indicador = registro.getString("indicador");
+        double saldo = registro.getDouble("saldo");
+        double aproveitamento = registro.getDouble("aproveitamento");
+        boolean visitante = registro.getBoolean("visitante");
+        boolean mandante = registro.getBoolean("mandante");
+        
+        performance = new Performance(id_participante, id_equipe, id_campeonato, id_turno, id_rodada, pontos_ganhos, 
+                jogos, vitorias, empates, derrotas, gols_pro, gols_contra, saldo, aproveitamento, visitante, mandante);
+        
+        performance.setIdPerformance(id_performance);
+        return performance;
+    }
 }

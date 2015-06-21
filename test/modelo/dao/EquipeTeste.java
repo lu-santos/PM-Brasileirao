@@ -7,7 +7,7 @@
 package modelo.dao;
 
 import controlador.EquipeEvent;
-import modelo.entidade.EquipeEsperada;
+import resultadoEsperado.EquipeEsperada;
 import static junit.framework.Assert.assertEquals;
 import org.junit.Test;
 

@@ -7,6 +7,9 @@ package modelo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import modelo.entidade.Rodada;
 
@@ -58,12 +61,59 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
 
     @Override
     public List<Rodada> listar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = null;
+        ResultSet registro = null;
+        conectar = conexao.abrirConexao();
+        query = "SELECT * FROM " + nomeDaTabela; 
+        List<Rodada> rodadas = new ArrayList<>();
+        
+        try{
+            stmt = conectar.prepareStatement(query);
+            registro = stmt.executeQuery();
+            while(registro.next()){
+                Rodada rodada = new Rodada();
+                rodada = registrarDados(registro, rodada);
+                rodadas.add(rodada);
+            }
+        }catch(SQLException e){
+            System.out.println("Erro na listagem " + e.getMessage());
+        }finally{
+            conexao.fecharConexao();
+        }
+        return rodadas; 
     }
 
     @Override
     public Rodada getRegistro(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = null;
+        ResultSet registro = null;
+        
+        conectar = conexao.abrirConexao();
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_rodada = " + id; 
+        Rodada rodada = new Rodada();
+        try{
+            stmt = conectar.prepareStatement(query);
+            registro = stmt.executeQuery();
+            while(registro.next()){
+                registrarDados(registro, rodada);
+            }
+        }catch(SQLException e){
+            System.out.println("Erro na listagem " + e.getMessage());
+        }finally{
+            conexao.fecharConexao();
+        }
+        return rodada; 
     }
     
+    private Rodada registrarDados(ResultSet registro, Rodada rodada) throws SQLException {
+        int id_rodada = registro.getInt("id_rodada");
+        int id_turno = registro.getInt("id_turno");
+        int id_campeonato = registro.getInt("id_campeonato");
+        int numero_rodada = registro.getInt("numero_rodada");
+        rodada.setIdRodada(id_rodada);
+        rodada.setIdTurno(id_turno);
+        rodada.setIdCampeonato(id_campeonato);
+        rodada.setNumeroRodada(numero_rodada);
+        return rodada;
+    }
 }

@@ -58,22 +58,16 @@ public class EquipeDAO implements BaseCrudDAO<Equipe>{
     public List<Equipe> listar() throws Exception {
         PreparedStatement stmt = null;
         ResultSet registro = null;
-        
-        Connection conectar = conexao.abrirConexao();
+        conectar = conexao.abrirConexao();
         query = "SELECT * FROM " + nomeDaTabela; 
         List<Equipe> equipes = new ArrayList<>();
+        
         try{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                int id_equipe = registro.getInt("id_equipe");
-                String nome = registro.getString("nome");
-                String indicador = registro.getString("indicador");
                 Equipe equipe = new Equipe();
-                equipe.setIdEquipe(id_equipe);
-                equipe.setNome(nome.trim());
-                if (indicador != null)
-                    equipe.setIndicador(indicador.trim());
+                equipe = registrarDados(registro, equipe);
                 equipes.add(equipe);
             }
         }catch(SQLException e){
@@ -89,20 +83,14 @@ public class EquipeDAO implements BaseCrudDAO<Equipe>{
         PreparedStatement stmt = null;
         ResultSet registro = null;
         
-        Connection conectar = conexao.abrirConexao();
+        conectar = conexao.abrirConexao();
         query = "SELECT * FROM " + nomeDaTabela + " WHERE id_equipe = " + id; 
         Equipe equipe = new Equipe();
         try{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                int id_equipe = registro.getInt("id_equipe");
-                String nome = registro.getString("nome");
-                String indicador = registro.getString("indicador");
-                equipe.setIdEquipe(id_equipe);
-                equipe.setNome(nome.trim());
-                if (indicador != null)
-                    equipe.setIndicador(indicador.trim());
+                registrarDados(registro, equipe);
             }
         }catch(SQLException e){
             System.out.println("Erro na listagem " + e.getMessage());
@@ -110,5 +98,16 @@ public class EquipeDAO implements BaseCrudDAO<Equipe>{
             conexao.fecharConexao();
         }
         return equipe; 
+    }
+    
+    private Equipe registrarDados(ResultSet registro, Equipe equipe) throws SQLException {
+        int id_equipe = registro.getInt("id_equipe");
+        String nome = registro.getString("nome");
+        String indicador = registro.getString("indicador");
+        equipe.setIdEquipe(id_equipe);
+        equipe.setNome(nome.trim());
+        if (indicador != null)
+            equipe.setIndicador(indicador.trim());
+        return equipe;
     }
 }
