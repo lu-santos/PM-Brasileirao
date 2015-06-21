@@ -7,6 +7,7 @@
 package visao;
 
 //import Servicos.ServicoImportacaoEquipe;
+import controlador.EquipeEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -21,13 +22,13 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
      */
     
     private DefaultListModel listaArquivos = new DefaultListModel();
-//    private ServicoImportacaoEquipe sie = new ServicoImportacaoEquipe();
-    private String nomeArquivo;
+    private EquipeEvent equipeEvento = new EquipeEvent();
+    private String nomeArquivo = "equipes.txt";
     
     public ImportarEquipe() {
         initComponents();
         
-        listaArquivos.addElement("equipes.txt");        
+        listaArquivos.addElement(nomeArquivo);        
         listArquivoEquipe.setModel(listaArquivos);
         listArquivoEquipe.setSelectedIndex(0);
     }
@@ -44,7 +45,7 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listArquivoEquipe = new javax.swing.JList();
-        jButton1 = new javax.swing.JButton();
+        btnImportar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -60,11 +61,11 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(listArquivoEquipe);
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setText("Importar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnImportar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnImportar.setText("Importar");
+        btnImportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnImportarActionPerformed(evt);
             }
         });
 
@@ -81,7 +82,7 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
                         .addGap(133, 133, 133)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
+                            .addComponent(btnImportar, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
                 .addContainerGap(161, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,21 +93,21 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jButton1)
+                .addComponent(btnImportar)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-   //     sie.importarEquipe();
+    private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
+        equipeEvento.importarEquipe();
         JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");  
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnImportarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnImportar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList listArquivoEquipe;
