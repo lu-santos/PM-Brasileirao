@@ -70,5 +70,10 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
     public List<Performance> listar() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Performance getRegistro(int id) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
   
 }

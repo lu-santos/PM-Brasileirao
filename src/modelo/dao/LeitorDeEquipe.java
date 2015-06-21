@@ -49,11 +49,9 @@ public class LeitorDeEquipe implements LeitorDAO{
             try{
                 ler = new BufferedReader(new FileReader(nomeArquivo));
                 String linha = ler.readLine();
-                System.out.println(linha);
                 incluirCampeonato(linha);
                 while(ler.ready()){
                     linha = ler.readLine();
-                    System.out.println(linha);
                     Equipe equipe = new Equipe(linha);
                     if(i <= 20)
                         equipeDAO.incluir(equipe);

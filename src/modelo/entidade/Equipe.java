@@ -31,6 +31,10 @@ public class Equipe {
         return idEquipe;
     }
 
+    public void setIdEquipe(int idEquipe) {
+        this.idEquipe = idEquipe;
+    }
+
     public String getNome() {
         return nome;
     }

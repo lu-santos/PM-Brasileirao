@@ -23,6 +23,10 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
     public RodadaDAO(ConexaoDAO conexao) {
         this.conexao = conexao;
     }
+
+    RodadaDAO() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     @Override
     public void incluir(Rodada t) throws Exception {
@@ -54,6 +58,11 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
 
     @Override
     public List<Rodada> listar() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Rodada getRegistro(int id) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

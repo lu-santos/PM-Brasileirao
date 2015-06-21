@@ -7,6 +7,8 @@ package modelo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import modelo.entidade.Campeonato;
 
@@ -53,5 +55,30 @@ public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
     @Override
     public List<Campeonato> listar() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Campeonato getRegistro(int id) throws Exception {
+        PreparedStatement stmt = null;
+        ResultSet registro = null;
+        
+        Connection conectar = conexao.abrirConexao();
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_campeonato = " + id; 
+        Campeonato campeonato = new Campeonato();
+        try{
+            stmt = conectar.prepareStatement(query);
+            registro = stmt.executeQuery();
+            while(registro.next()){
+                int id_campeonato = registro.getInt("id_campeonato");
+                int ano = registro.getInt("ano");
+                campeonato.setAno(ano);
+                campeonato.setIdCampeonato(id_campeonato);
+            }
+        }catch(SQLException e){
+            System.out.println("Erro na listagem " + e.getMessage());
+        }finally{
+            conexao.fecharConexao();
+        }
+        return campeonato; 
     }
 }
