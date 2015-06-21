@@ -1,0 +1,11 @@
+RODADA: 24
+Goias 1x2 Fluminense
+Nautico 3x0 Coritiba
+Botafogo 0x1 Ponte-Preta
+Flamengo 4x1 Criciuma
+Portuguesa 4x0 Corinthians
+Bahia 0x0 Vasco
+Sao-Paulo 0x1 Gremio
+Internacional 1x2 Cruzeiro
+Atletico-MG 3x1 Santos
+Atletico-PR 3x5 Vitoria

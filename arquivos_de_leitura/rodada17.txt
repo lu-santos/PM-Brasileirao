@@ -1,0 +1,11 @@
+RODADA: 17
+Gremio 1x0 Ponte-Preta 
+Goias 0x0 Atletico-MG 
+Nautico 1x4 Atletico-PR 
+Portuguesa 4x2 Bahia 
+Fluminense 0x2 Santos 
+Botafogo 0x0 Sao-Paulo
+Corinthians 4x0 Flamengo
+Vitoria 0x1 Criciuma 
+Coritiba 0x0 Internacional
+Cruzeiro 5x3 Vasco

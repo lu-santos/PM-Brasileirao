@@ -1,0 +1,11 @@
+RODADA: 11
+Sao-Paulo 1x2 Bahia 
+Cruzeiro 1x0 Coritiba 
+Flamengo 3x0 Atletico-MG 
+Gremio 1x1 Internacional 
+Ponte-Preta 1x1 Fluminense
+Criciuma 0x2 Corinthians 
+Atletico-PR 2x0 Goias 
+Vasco 2x3 Botafogo 
+Vitoria 2x1 Portuguesa
+Santos 1x1 Nautico 

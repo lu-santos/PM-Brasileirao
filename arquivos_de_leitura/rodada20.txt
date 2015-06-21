@@ -1,0 +1,11 @@
+RODADA: 20
+Atletico-PR 1x1 Fluminense 
+Bahia 2x2 Criciuma 
+Goias 1x2 Cruzeiro
+Botafogo 1x0 Corinthians
+Nautico 0x2 Gremio 
+Portuguesa 2x0 Vasco 
+Internacional 2x2 Vitoria 
+Flamengo 2x1 Santos 
+Sao-Paulo 1x0 Ponte-Preta 
+Atletico-MG 3x0 Coritiba

@@ -1,0 +1,11 @@
+RODADA: 15
+Nautico 0x1 Fluminense
+Cruzeiro 5x1 Vitoria
+Vasco 2x3 Gremio 
+Flamengo 0x0 Sao-Paulo 
+Corinthians 1x0 Coritiba 
+Ponte-Preta 0x1 Goias 
+Portuguesa 1x3 Botafogo 
+Bahia 0x0 Santos 
+Internacional 0x0 Atletico-MG 
+Atletico-PR 2x1 Criciuma

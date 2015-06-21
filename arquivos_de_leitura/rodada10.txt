@@ -1,0 +1,11 @@
+RODADA: 10
+Fluminense 1x0 Cruzeiro 
+Atletico-MG 1x2 Atletico-PR
+Portuguesa 1x1 Criciuma 
+Coritiba 5x3 Ponte-Preta 
+Corinthians 2x0 Gremio 
+Bahia 3x0 Flamengo  
+Botafogo 2x0 Vitoria 
+Goias 1x1 Vasco  
+Nautico 0x1 Sao-Paulo 
+Internacional 1x2 Santos

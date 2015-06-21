@@ -1,0 +1,11 @@
+RODADA: 32
+Vasco 2x1 Coritiba
+Sao-Paulo 2x1 Portuguesa
+Atletico-MG 5x0 Nautico
+Vitoria 1x1 Corinthians
+Gremio 0x0 Bahia
+Goias 1x0 Botafogo
+Santos 0x1 Cruzeiro
+Flamengo 1x0 Fluminense
+Atletico-PR 1x0 Internacional
+Criciuma 1x1 Ponte-Preta

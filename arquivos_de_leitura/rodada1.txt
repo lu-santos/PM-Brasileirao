@@ -1,0 +1,11 @@
+RODADA: 1
+Vasco 1x0 Portuguesa
+Vitoria 2x2 Internacional
+Corinthians 1x1 Botafogo
+Gremio 2x0 Nautico
+Ponte-Preta 0x2 Sao-Paulo
+Criciuma 3x1 Bahia
+Santos 0x0 Flamengo
+Fluminense 2x1 Atletico-PR
+Cruzeiro 5x0 Goias
+Coritiba 2x1 Atletico-MG

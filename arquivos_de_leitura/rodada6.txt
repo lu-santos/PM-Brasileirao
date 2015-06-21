@@ -1,0 +1,11 @@
+RODADA: 6
+Flamengo 2x2 Coritiba
+Atletico-PR 1x1 Gremio
+Nautico 1x3 Ponte-Preta
+Portuguesa 1x1 Cruzeiro
+Bahia 0x2 Corinthians
+Sao-Paulo 0x2 Santos
+Internacional 5x3 Vasco
+Goias 1x0 Vitoria
+Botafogo 1x0 Fluminense
+Atletico-MG 3x2 Criciuma

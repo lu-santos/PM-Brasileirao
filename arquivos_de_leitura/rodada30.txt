@@ -1,0 +1,11 @@
+RODADA: 30
+Fluminense 1x1 Ponte-Preta
+Nautico 1x5 Santos
+Corinthians 1x0 Criciuma
+Bahia 0x1 Sao-Paulo
+Atletico-MG 1x0 Flamengo
+Goias 3x0 Atletico-PR
+Internacional 2x2 Gremio
+Botafogo 2x2 Vasco
+Coritiba 2x1 Cruzeiro
+Portuguesa 1x1 Vitoria

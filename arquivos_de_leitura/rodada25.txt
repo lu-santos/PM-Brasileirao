@@ -1,0 +1,11 @@
+RODADA: 25
+Ponte-Preta 1x2 Nautico
+Gremio 1x0 Atletico-PR
+Cruzeiro 4x0 Portuguesa
+Fluminense 1x1 Botafogo
+Vitoria 2x1 Goias
+Santos 3x0 Sao-Paulo
+Corinthians 2x0 Bahia
+Coritiba 0x2 Flamengo
+Criciuma 1x1 Atletico-MG
+Vasco 3x1 Internacional
