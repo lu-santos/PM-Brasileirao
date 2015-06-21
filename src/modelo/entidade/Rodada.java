@@ -6,6 +6,9 @@
 
 package modelo.entidade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Lucianna
@@ -16,6 +19,7 @@ public class Rodada {
     private int idTurno;
     private int idCampeonato;
     private int numeroRodada;
+    private List<Jogo> PartidasNaRodada = new ArrayList<>();
     
     public Rodada(int idTurno, int idCampeonato, int numeroRodada) {
         this.idTurno = idTurno;
@@ -25,6 +29,14 @@ public class Rodada {
     
     public Rodada(){
         
+    }
+
+    public List<Jogo> getPartidasNaRodada() {
+        return PartidasNaRodada;
+    }
+
+    public void setPartidasNaRodada(List<Jogo> PartidasNaRodada) {
+        this.PartidasNaRodada = PartidasNaRodada;
     }
     
     public int getIdRodada() {
