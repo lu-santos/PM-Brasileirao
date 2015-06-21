@@ -177,23 +177,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemClassificaçãoMandanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoMandanteActionPerformed
-        //AbrirJanela.abrirJanela(new ClassificacaoMandante(), painelTrabalho);
+        AbrirJanela.abrirJanela(new ClassificacaoMandante(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoMandanteActionPerformed
 
     private void itemClassificaçãoTurno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoTurno1ActionPerformed
-        //AbrirJanela.abrirJanela(new ClassificacaoTurno1(), painelTrabalho);
+        AbrirJanela.abrirJanela(new ClassificacaoTurno1(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoTurno1ActionPerformed
 
     private void itemClassificaçãoTurno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoTurno2ActionPerformed
-       // AbrirJanela.abrirJanela(new ClassificacaoTurno2(), painelTrabalho);
+        AbrirJanela.abrirJanela(new ClassificacaoTurno2(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoTurno2ActionPerformed
 
     private void itemImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarRodadaActionPerformed
-       // AbrirJanela.abrirJanela(new ImportarRodada(), painelTrabalho);
+        AbrirJanela.abrirJanela(new ImportarRodada(), painelTrabalho);
     }//GEN-LAST:event_itemImportarRodadaActionPerformed
 
     private void itemImportarEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarEquipeActionPerformed
-       // AbrirJanela.abrirJanela(new ImportarEquipe(), painelTrabalho);
+        AbrirJanela.abrirJanela(new ImportarEquipe(), painelTrabalho);
     }//GEN-LAST:event_itemImportarEquipeActionPerformed
 
     private void itemClassificaçãoCamepeonatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoCamepeonatoActionPerformed
@@ -201,7 +201,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemClassificaçãoCamepeonatoActionPerformed
 
     private void itemClassificaçãoVisitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoVisitanteActionPerformed
-       // AbrirJanela.abrirJanela(new ClassificacaoVisitante(), painelTrabalho);
+        AbrirJanela.abrirJanela(new ClassificacaoVisitante(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoVisitanteActionPerformed
 
     private void itemResultadoRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemResultadoRodadaActionPerformed
@@ -209,7 +209,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemResultadoRodadaActionPerformed
 
     private void itemResultadoEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemResultadoEquipeActionPerformed
-       // AbrirJanela.abrirJanela(new ResultadoEquipe(), painelTrabalho);
+        AbrirJanela.abrirJanela(new ResultadoEquipe(), painelTrabalho);
     }//GEN-LAST:event_itemResultadoEquipeActionPerformed
 
     /**
