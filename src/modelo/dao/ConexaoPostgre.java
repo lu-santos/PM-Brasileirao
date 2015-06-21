@@ -14,29 +14,36 @@ import java.sql.SQLException;
  *
  * @author Lucianna
  */
-public class ConexaoPostgre {
-    private static final String bdURL = "jdbc:db2://localhost:50000/PCS_SGBD";
+public class ConexaoPostgre implements ConexaoDAO{
+    private static final String bdURL = "jdbc:postgresql://localhost:5432/brasileirao";
     private final String usuario = "postgre";
     private final String senha = "1234";
     private final String bdSqlDriver = "org.postgresql.Driver";
     private Connection conexao;
     
-    protected Connection abrirConexao() throws Exception{
+    @Override
+    public void abrirConexao() throws Exception{
         try{
            Class.forName(bdSqlDriver);
         }catch(ClassNotFoundException e){
             System.out.println("Classe nao encontrada");
             throw e;
-        }try{
+        }
+    }
+            
+    public Connection retornarConexao() throws Exception{
+        try{
+            abrirConexao();
             conexao = DriverManager.getConnection(bdURL, usuario, senha);
         }catch(SQLException e){
             System.out.println("Erro na conexao");
             throw e;
         }
         return conexao;
-    }
+    } 
     
-    protected void fecharConexao() throws SQLException{
+    @Override
+    public void fecharConexao() throws SQLException{
         try{
             conexao.close();
         }catch(SQLException e){
