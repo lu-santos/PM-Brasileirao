@@ -29,15 +29,14 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
     
     @Override
     public void incluir(Performance t) throws Exception {
-        query = "INSERT INTO " + nomeDaTabela + "(id_rodada, id_turno, id_campeonato, id_equipe, id_participante, pontos_ganhos, vitorias, derrotas, empates, jogos, gols_pro, gols_contra, indicador, saldo, aproveitamente, visitante, mandante) "
-                + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        query = "INSERT INTO " + nomeDaTabela + "(id_rodada, id_turno, id_campeonato, id_equipe, pontos_ganhos, vitorias, derrotas, empates, jogos, gols_pro, gols_contra, indicador, saldo, aproveitamente, visitante, mandante) "
+                + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, );";
         conectar = conexao.abrirConexao();
         PreparedStatement pst = conectar.prepareStatement(query);
         pst.setInt(1, t.getIdRodada());
         pst.setInt(2, t.getIdTurno());
         pst.setInt(3, t.getIdCampeonato());
         pst.setInt(4, t.getIdEquipe());
-        pst.setInt(5, t.getIdParticipante());
         pst.setInt(6, t.getPontosGanhos());
         pst.setInt(7, t.getVitorias());
         pst.setInt(8, t.getDerrotas());
@@ -121,7 +120,6 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
         int id_turno = registro.getInt("id_turno");
         int id_campeonato = registro.getInt("id_campeonato");
         int id_equipe = registro.getInt("id_equipe");
-        int id_participante = registro.getInt("id_participante");
         int pontos_ganhos = registro.getInt("pontos_ganhos");
         int vitorias = registro.getInt("vitorias");
         int derrotas = registro.getInt("derrotas");
@@ -135,7 +133,7 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
         boolean visitante = registro.getBoolean("visitante");
         boolean mandante = registro.getBoolean("mandante");
         
-        performance = new Performance(id_participante, id_equipe, id_campeonato, id_turno, id_rodada, pontos_ganhos, 
+        performance = new Performance(id_equipe, id_campeonato, id_turno, id_rodada, pontos_ganhos, 
                 jogos, vitorias, empates, derrotas, gols_pro, gols_contra, saldo, aproveitamento, visitante, mandante);
         
         performance.setIdPerformance(id_performance);

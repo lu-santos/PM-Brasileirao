@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-package modelo.entidade;
+package resultadoEsperado;
 
 import java.util.ArrayList;
 import java.util.List;
+import modelo.entidade.Equipe;
 
 /**
  *

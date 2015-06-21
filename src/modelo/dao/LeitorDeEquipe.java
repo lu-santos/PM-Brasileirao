@@ -24,9 +24,9 @@ import modelo.entidade.Equipe;
 public class LeitorDeEquipe implements LeitorDAO{
     private EquipeDAO equipeDAO;
     private CampeonatoDAO campeonatoDAO;
-    private EquipeParticipanteDAO equipeParticipanteDAO;
     private String nomeArquivo;
     private ConexaoDAO conexao = new ConexaoPostgre();
+    private int anoCampeonato;
     
     public LeitorDeEquipe(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
@@ -49,6 +49,7 @@ public class LeitorDeEquipe implements LeitorDAO{
             try{
                 ler = new BufferedReader(new FileReader(nomeArquivo));
                 String linha = ler.readLine();
+                anoCampeonato = Integer.parseInt(linha);
                 incluirCampeonato(linha);
                 while(ler.ready()){
                     linha = ler.readLine();
@@ -70,15 +71,7 @@ public class LeitorDeEquipe implements LeitorDAO{
     }
     
     public void incluirCampeonato(String linha) throws Exception {
-        int ano = Integer.parseInt(linha);
-        Campeonato campeonato = new Campeonato(ano);
-        campeonatoDAO.incluir(campeonato);
-        
-    }
-    
-    public void incluirEquipeParticipante(String linha) throws Exception {
-        int ano = Integer.parseInt(linha);
-        Campeonato campeonato = new Campeonato(ano);
+        Campeonato campeonato = new Campeonato(anoCampeonato);
         campeonatoDAO.incluir(campeonato);
         
     }
