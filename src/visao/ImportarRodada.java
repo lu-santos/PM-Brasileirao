@@ -148,7 +148,7 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarRodadaActionPerformed
-      /*      
+      /*    
         if (listaArquivoRodadas.getSelectedIndex() > 35)     // arquivos txt não existentes
             JOptionPane.showMessageDialog(getContentPane(),"Não exite arquivo para o item selecionado!");  
         
