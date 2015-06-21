@@ -29,6 +29,10 @@ public class Campeonato {
     public int getIdCampeonato() {
         return idCampeonato;
     }
+
+    public void setIdCampeonato(int idCampeonato) {
+        this.idCampeonato = idCampeonato;
+    }
     
     public void setAno(int ano) {
         this.ano = ano;

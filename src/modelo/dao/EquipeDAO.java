@@ -8,6 +8,8 @@ package modelo.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import modelo.entidade.Equipe;
 
@@ -17,7 +19,7 @@ import modelo.entidade.Equipe;
  */
 public class EquipeDAO implements BaseCrudDAO<Equipe>{
     private final String nomeDaTabela = "tabela_equipe";
-    String query;
+    private String query;
     private static ConexaoDAO conexao;
     private Connection conectar;
     
@@ -54,6 +56,59 @@ public class EquipeDAO implements BaseCrudDAO<Equipe>{
 
     @Override
     public List<Equipe> listar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = null;
+        ResultSet registro = null;
+        
+        Connection conectar = conexao.abrirConexao();
+        query = "SELECT * FROM " + nomeDaTabela; 
+        List<Equipe> equipes = new ArrayList<>();
+        try{
+            stmt = conectar.prepareStatement(query);
+            registro = stmt.executeQuery();
+            while(registro.next()){
+                int id_equipe = registro.getInt("id_equipe");
+                String nome = registro.getString("nome");
+                String indicador = registro.getString("indicador");
+                Equipe equipe = new Equipe();
+                equipe.setIdEquipe(id_equipe);
+                equipe.setNome(nome.trim());
+                if (indicador != null)
+                    equipe.setIndicador(indicador.trim());
+                equipes.add(equipe);
+            }
+        }catch(SQLException e){
+            System.out.println("Erro na listagem " + e.getMessage());
+        }finally{
+            conexao.fecharConexao();
+        }
+        return equipes; 
+    }
+
+    @Override
+    public Equipe getRegistro(int id) throws Exception {
+        PreparedStatement stmt = null;
+        ResultSet registro = null;
+        
+        Connection conectar = conexao.abrirConexao();
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_equipe = " + id; 
+        Equipe equipe = new Equipe();
+        try{
+            stmt = conectar.prepareStatement(query);
+            registro = stmt.executeQuery();
+            while(registro.next()){
+                int id_equipe = registro.getInt("id_equipe");
+                String nome = registro.getString("nome");
+                String indicador = registro.getString("indicador");
+                equipe.setIdEquipe(id_equipe);
+                equipe.setNome(nome.trim());
+                if (indicador != null)
+                    equipe.setIndicador(indicador.trim());
+            }
+        }catch(SQLException e){
+            System.out.println("Erro na listagem " + e.getMessage());
+        }finally{
+            conexao.fecharConexao();
+        }
+        return equipe; 
     }
 }

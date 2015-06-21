@@ -18,4 +18,5 @@ public interface BaseCrudDAO<T> {
     public T visualizar() throws Exception;
     public void excluir(T t) throws Exception;
     public List<T> listar() throws Exception;
+    public T getRegistro(int id) throws Exception;
 }
