@@ -23,11 +23,13 @@ import modelo.entidade.Equipe;
  */
 public class LeitorDeEquipe implements LeitorDAO{
     private EquipeDAO equipeDAO;
+    private CampeonatoDAO campeonatoDAO;
     String nomeArquivo;
     
     public LeitorDeEquipe(String nomeArquivo, ConexaoDAO conexao) {
         this.nomeArquivo = nomeArquivo;
         equipeDAO = new EquipeDAO(conexao);
+        campeonatoDAO = new CampeonatoDAO(conexao);
     }
     
     @Override
@@ -45,6 +47,8 @@ public class LeitorDeEquipe implements LeitorDAO{
             try{
                 ler = new BufferedReader(new FileReader(nomeArquivo));
                 String linha = ler.readLine();
+                System.out.println(linha);
+                incluirCampeonato(linha);
                 while(ler.ready()){
                     linha = ler.readLine();
                     System.out.println(linha);
@@ -65,9 +69,10 @@ public class LeitorDeEquipe implements LeitorDAO{
         }
     }
     
-    public void incluirCampeonato(String linha) {
+    public void incluirCampeonato(String linha) throws Exception {
         int ano = Integer.parseInt(linha);
         Campeonato campeonato = new Campeonato(ano);
+        campeonatoDAO.incluir(campeonato);
         
     }
 }

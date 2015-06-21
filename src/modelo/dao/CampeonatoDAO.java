@@ -5,6 +5,8 @@
  */
 package modelo.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.List;
 import modelo.entidade.Campeonato;
 
@@ -13,10 +15,24 @@ import modelo.entidade.Campeonato;
  * @author Amanda
  */
 public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
+    private final String nomeDaTabela = "tabela_campeonato";
+    String query;
+    private static ConexaoDAO conexao;
+    private Connection conectar;
+    
+    public CampeonatoDAO(ConexaoDAO conexao) {
+        this.conexao = conexao;
+    }
 
     @Override
     public void incluir(Campeonato t) throws Exception {
-        
+        query = "INSERT INTO " + nomeDaTabela + "(ano) "
+                + "VALUES(?);";
+        conectar = conexao.abrirConexao();
+        PreparedStatement pst = conectar.prepareStatement(query);
+        pst.setInt(1, t.getAno());
+        pst.executeUpdate();
+        conexao.fecharConexao();
     }
 
     @Override
