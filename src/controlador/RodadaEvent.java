@@ -7,29 +7,39 @@ package controlador;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
+import modelo.dao.LeitorDAO;
 import modelo.dao.LeitorDeJogos;
 import modelo.dao.RodadaDAO;
 import modelo.entidade.Jogo;
+import modelo.entidade.Rodada;
 
 /**
  *
  * @author Amanda
  */
-public class RodadaEvent {
+public class RodadaEvent extends javax.swing.JInternalFrame{
    
-    public LeitorDeJogos leitor;
-    public RodadaDAO rodadaDao;
-    public List<Jogo> lista = new ArrayList<>();
     
-    //metodo pra pegar evento da view
-    public void pedidoDeInclusao(){
-        try{
-            lista = leitor.getListaDeJogos();
-            //dar um jeito de iterar na lista e add cada um no bd
-        }catch(Exception e){
-            //escrever msg
-        
-        }
+    private DefaultListModel listaArquivos = new DefaultListModel();
+    private LeitorDAO leitor = new LeitorDeJogos();
+    private String nomeArquivo;
+    private int numeroRodadaAtual;
+    
+
+    public RodadaEvent(String nomeArquivo, LeitorDAO leitor) {
+        this.nomeArquivo = nomeArquivo;
+        this.leitor = leitor;
     }
+
+    
+    
+    public void ImportarRodada() {
+        
+        
+        
+        
+    }
+
     
 }
