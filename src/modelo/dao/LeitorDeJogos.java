@@ -25,12 +25,22 @@ public class LeitorDeJogos implements LeitorDAO{
     List<Jogo> listaDeJogos = new ArrayList<>();
     File nomeArquivoPartidas;
     BufferedReader reader;
-
-    public LeitorDeJogos() {
-    }
     
+    private RodadaDAO equipeDAO = new RodadaDAO();
+    String nomeArquivo;
+
+     public LeitorDeJogos(String nomeArquivo) {
+        this.nomeArquivo = nomeArquivo;
+    }
+   
     @Override
     public void lerArquivo() {
+        File arquivoTXT = new File(nomeArquivo);
+        if (arquivoTXT.exists())
+            leitura();
+    }
+    
+    private void leitura() {
         try{
             getListaDeJogos();            
         }catch (Exception e) {

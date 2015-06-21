@@ -22,17 +22,21 @@ import modelo.entidade.Equipe;
  * @author Lucianna
  */
 public class LeitorDeEquipe implements LeitorDAO{
-    private static final String nomeArquivo = "equipes.txt";
     private EquipeDAO equipeDAO = new EquipeDAO();
+    String nomeArquivo;
     
-    public LeitorDeEquipe() {
-        File arquivoTXT = new File(nomeArquivo);
-        if (arquivoTXT.exists())
-            lerArquivo();
+    public LeitorDeEquipe(String nomeArquivo) {
+        this.nomeArquivo = nomeArquivo;
     }
     
     @Override
     public void lerArquivo() {
+        File arquivoTXT = new File(nomeArquivo);
+        if (arquivoTXT.exists())
+            leitura();
+    }
+    
+    private void leitura() {
         BufferedReader ler = null;
         int i = 0;
         try{
