@@ -18,28 +18,14 @@ import modelo.entidade.Rodada;
  *
  * @author Amanda
  */
-public class RodadaEvent extends javax.swing.JInternalFrame{
-   
+public class RodadaEvent{
+    private LeitorDAO leitor;
     
-    private DefaultListModel listaArquivos = new DefaultListModel();
-    private LeitorDAO leitor = new LeitorDeJogos();
-    private String nomeArquivo;
-    private int numeroRodadaAtual;
-    
-
-    public RodadaEvent(String nomeArquivo, LeitorDAO leitor) {
-        this.nomeArquivo = nomeArquivo;
+    public RodadaEvent(LeitorDAO leitor) {
         this.leitor = leitor;
     }
 
-    
-    
     public void ImportarRodada() {
-        
-        
-        
-        
+        leitor.lerArquivo();        
     }
-
-    
 }

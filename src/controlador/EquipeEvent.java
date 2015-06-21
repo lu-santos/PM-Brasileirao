@@ -14,7 +14,13 @@ import modelo.dao.LeitorDeEquipe;
  * @author Lucianna
  */
 public class EquipeEvent {
-    public void importarEquipe(){
-        LeitorDAO leitor = new LeitorDeEquipe();      
+    private LeitorDAO leitor;
+    
+    public EquipeEvent(LeitorDAO leitor) {
+        this.leitor = leitor;
+    }
+
+    public void ImportarEquipe() {
+        leitor.lerArquivo();        
     }
 }
