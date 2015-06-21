@@ -21,9 +21,7 @@ public class Rodada {
     private int numeroRodada;
     private List<Jogo> PartidasNaRodada = new ArrayList<>();
     
-    public Rodada(int idTurno, int idCampeonato, int numeroRodada) {
-        this.idTurno = idTurno;
-        this.idCampeonato = idCampeonato;
+    public Rodada(int numeroRodada) {
         this.numeroRodada = numeroRodada;
     }
     

@@ -5,9 +5,11 @@
  */
 package controlador;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import modelo.dao.LeitorDAO;
 import modelo.dao.LeitorDeJogos;
 import modelo.dao.RodadaDAO;
@@ -18,17 +20,32 @@ import modelo.entidade.Rodada;
  *
  * @author Amanda
  */
-public class RodadaEvent{
-   
+public class RodadaEvent {
     private LeitorDAO leitor;
-    private String nomeArquivo;    
-
+    private String nomeArquivo;
+    private List<String> rodadasImportadas = new ArrayList<>();
+    
     public RodadaEvent(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
         this.leitor = new LeitorDeJogos(nomeArquivo);
+        this.rodadasImportadas = new ArrayList();
+    }
+    
+    public void adicionarRodadasImportadas(String rodada){
+        if(rodadasImportadas.size() < 39)
+            rodadasImportadas.add(rodada);
+    }
+    
+    public List<String> getRodadasImportadas(){
+        return rodadasImportadas;
     }
 
-    public void ImportarRodada(String nomeArquivo) {
-        leitor.lerArquivo();        
+    public void ImportarRodada() {
+        leitor.lerArquivo();
+        for(String  : contatos) {  
+        
+      }  
     }
+
+  
 }

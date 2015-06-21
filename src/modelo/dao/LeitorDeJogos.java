@@ -20,13 +20,14 @@ import modelo.entidade.Rodada;
  * @author Amanda
  */
 public class LeitorDeJogos implements LeitorDAO{
-    public Rodada rodada =  new Rodada();
+    public Rodada rodada;
     public Jogo jogo = new Jogo();
+    public JogoDAO jogoDAO;
     List<Jogo> listaDeJogos = new ArrayList<>();
     File nomeArquivoPartidas;
     BufferedReader reader;
     
-    private RodadaDAO equipeDAO = new RodadaDAO();
+    private RodadaDAO rodadaDAO = new RodadaDAO();
     String nomeArquivo;
 
      public LeitorDeJogos(String nomeArquivo) {
@@ -42,13 +43,13 @@ public class LeitorDeJogos implements LeitorDAO{
     
     private void leitura() {
         try{
-            getListaDeJogos();            
+            lerListaDeJogos();            
         }catch (Exception e) {
             System.out.println(e.toString());
         }
     }
     
-    public List getListaDeJogos() throws FileNotFoundException, IOException{
+    public void lerListaDeJogos() throws FileNotFoundException, IOException, Exception{
         try {
             reader = new BufferedReader(
                    new FileReader(nomeArquivoPartidas), 4096);
@@ -58,26 +59,30 @@ public class LeitorDeJogos implements LeitorDAO{
             if (reader != null)
                 reader.close();
         }
-        return listaDeJogos;
     }
     
-    public void processarLinhaArquivo(BufferedReader reader) throws IOException{
+    public void processarLinhaArquivo(BufferedReader reader) throws IOException, Exception{
         String linha;
         int i = 0;
         while (reader.ready()) {
             linha = reader.readLine();
             if(i == 0){
                 String[] primeiraLinha = linha.split(" ");     
-                rodada.setNumeroRodada(Integer.parseInt(primeiraLinha[1]));
+                incluirRodada(primeiraLinha[1]);
             }
             else{
-                listaDeJogos.add(processarLinhaJogo(linha));
+                jogoDAO.incluir(processarLinhaJogo(linha));
             }
             i++;
         }
     }
     
-    
+     public void incluirRodada(String linha) throws Exception {
+        int numeroRodada = Integer.parseInt(linha);
+        rodada = new Rodada(numeroRodada);
+        rodadaDAO.incluir(rodada);  
+    }
+     
     public Jogo processarLinhaJogo(String linha){
         String[] partesSemX = linha.split(" x ");
         String lado1 = partesSemX[0];

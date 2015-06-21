@@ -8,6 +8,7 @@ package controlador;
 
 import modelo.dao.LeitorDAO;
 import modelo.dao.LeitorDeEquipe;
+import modelo.dao.LeitorDeJogos;
 
 /**
  *
@@ -19,7 +20,7 @@ public class EquipeEvent {
     
     public EquipeEvent(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
-        this.leitor = new LeitorDeEquipe(nomeArquivo);
+        this.leitor = new LeitorDeJogos(nomeArquivo);
     }
 
     public void ImportarEquipe() {

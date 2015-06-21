@@ -5,6 +5,7 @@
  */
 package modelo.dao;
 
+import java.sql.Connection;
 import java.util.List;
 import modelo.entidade.Rodada;
 
@@ -13,6 +14,19 @@ import modelo.entidade.Rodada;
  * @author Amanda
  */
 public class RodadaDAO implements BaseCrudDAO<Rodada>{
+    
+    private final String nomeDaTabela = "tabela_rodada";
+    String query;
+    private static ConexaoDAO conexao;
+    private Connection conectar;
+    
+    public RodadaDAO(ConexaoDAO conexao) {
+        this.conexao = conexao;
+    }
+
+    RodadaDAO() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public void incluir(Rodada t) throws Exception {
