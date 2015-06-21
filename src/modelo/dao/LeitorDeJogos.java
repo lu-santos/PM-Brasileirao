@@ -32,14 +32,14 @@ public class LeitorDeJogos implements LeitorDAO{
     @Override
     public void lerArquivo() {
         try{
-            iniciarReader();            
+            getListaDeJogos();            
         }catch (Exception e) {
             System.out.println(e.toString());
         }
     }
     
-    public void iniciarReader() throws FileNotFoundException, IOException{
-         try {
+    public List getListaDeJogos() throws FileNotFoundException, IOException{
+        try {
             reader = new BufferedReader(
                    new FileReader(nomeArquivoPartidas), 4096);
             processarLinhaArquivo(reader);
@@ -48,6 +48,7 @@ public class LeitorDeJogos implements LeitorDAO{
             if (reader != null)
                 reader.close();
         }
+        return listaDeJogos;
     }
     
     public void processarLinhaArquivo(BufferedReader reader) throws IOException{
