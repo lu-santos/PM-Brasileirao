@@ -42,9 +42,7 @@ public class RodadaEvent {
 
     public void ImportarRodada() {
         leitor.lerArquivo();
-        for(String  : contatos) {  
-        
-      }  
+      
     }
 
   
