@@ -18,20 +18,22 @@ import modelo.entidade.Equipe;
 public class EquipeDAO implements BaseCrudDAO<Equipe>{
     private final String nomeDaTabela = "tabela_equipe";
     String query;
-    private static ConexaoDAO conexao = new ConexaoPostgre();
+    private static ConexaoDAO conexao;
     private Connection conectar;
+    
+    public EquipeDAO(ConexaoDAO conexao) {
+        this.conexao = conexao;
+    }
     
     @Override
     public void incluir(Equipe t) throws Exception {
-        query = "INSERT INTO " + nomeDaTabela + "(id, nome, indicador) "
-                + "VALUES(?, ?, ?);";
+        query = "INSERT INTO " + nomeDaTabela + "(nome, indicador) "
+                + "VALUES(?, ?);";
         conectar = conexao.abrirConexao();
         PreparedStatement pst = conectar.prepareStatement(query);
-        pst.setInt(1, 1);
-        pst.setString(2, t.getNome());
-        pst.setString(3, t.getIndicador());
-        pst.executeQuery();
-        
+        pst.setString(1, t.getNome());
+        pst.setString(2, t.getIndicador());
+        pst.executeUpdate();
         conexao.fecharConexao();
     }
 

@@ -22,18 +22,20 @@ import modelo.entidade.Equipe;
  * @author Lucianna
  */
 public class LeitorDeEquipe implements LeitorDAO{
-    private EquipeDAO equipeDAO = new EquipeDAO();
+    private EquipeDAO equipeDAO;
     String nomeArquivo;
     
-    public LeitorDeEquipe(String nomeArquivo) {
+    public LeitorDeEquipe(String nomeArquivo, ConexaoDAO conexao) {
         this.nomeArquivo = nomeArquivo;
+        equipeDAO = new EquipeDAO(conexao);
     }
     
     @Override
     public void lerArquivo() {
         File arquivoTXT = new File(nomeArquivo);
-        if (arquivoTXT.exists())
+        if (arquivoTXT.exists()) {
             leitura();
+        }
     }
     
     private void leitura() {
@@ -43,9 +45,9 @@ public class LeitorDeEquipe implements LeitorDAO{
             try{
                 ler = new BufferedReader(new FileReader(nomeArquivo));
                 String linha = ler.readLine();
-                
                 while(ler.ready()){
                     linha = ler.readLine();
+                    System.out.println(linha);
                     Equipe equipe = new Equipe(linha);
                     if(i <= 20)
                         equipeDAO.incluir(equipe);

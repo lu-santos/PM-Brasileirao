@@ -10,6 +10,8 @@ package visao;
 import controlador.EquipeEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import modelo.dao.ConexaoDAO;
+import modelo.dao.ConexaoPostgre;
 import modelo.dao.LeitorDAO;
 import modelo.dao.LeitorDeEquipe;
 
@@ -26,6 +28,8 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
     private DefaultListModel listaArquivos = new DefaultListModel();
     private EquipeEvent equipeEvento;
     private String nomeArquivo = "equipes.txt";
+    private String caminhoDoArquivo = "arquivos_de_leitura\\equipes.txt";
+    private ConexaoDAO conexao = new ConexaoPostgre();
     
     public ImportarEquipe() {
         initComponents();
@@ -103,7 +107,7 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
-        LeitorDAO leitor = new LeitorDeEquipe(nomeArquivo);
+        LeitorDAO leitor = new LeitorDeEquipe(caminhoDoArquivo, conexao);
         equipeEvento = new EquipeEvent(leitor);
         equipeEvento.ImportarEquipe();
         JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");  

@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class ConexaoPostgre implements ConexaoDAO{
     private static final String bdURL = "jdbc:postgresql://localhost:5432/brasileirao";
-    private final String usuario = "postgre";
+    private final String usuario = "postgres";
     private final String senha = "1234";
     private final String bdSqlDriver = "org.postgresql.Driver";
     private Connection conexao;
