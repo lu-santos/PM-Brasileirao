@@ -8,6 +8,7 @@ package visao;
 
 //import Servicos.RodadasImportadas;
 //import Servicos.ServicoImportacaoResultado;
+import controlador.RodadaEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -23,22 +24,23 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
      */
     
     private DefaultListModel listaArquivos = new DefaultListModel();
- //   private ServicoImportacaoResultado sir = new ServicoImportacaoResultado();
+    private RodadaEvent rodadaEvento;
     private String nomeArquivo;
     
     private DefaultListModel listaArquivosImportados = new DefaultListModel();
-//    private RodadasImportadas rI = new RodadasImportadas();
     private int numeroRodadaAtual;
     
     public ImportarRodada() {
         initComponents();
         String arquivos;
-        for(int i = 1; i < 39; i++){
+        
+        for(int i = 0; i < 38; i++){
             arquivos = "Rodada" + " " + i;
             listaArquivos.addElement(arquivos);
         }
         listaArquivoRodadas.setModel(listaArquivos);
-        if(nomeArquivo == null)
+
+         if(nomeArquivo == null)
             listaArquivoRodadas.setSelectedIndex(0);
     }
 
@@ -145,51 +147,45 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarRodadaActionPerformed
-      /*    
-        if (listaArquivoRodadas.getSelectedIndex() > 35)     // arquivos txt não existentes
-            JOptionPane.showMessageDialog(getContentPane(),"Não exite arquivo para o item selecionado!");  
+ 
+        if (listaArquivoRodadas.getSelectedIndex() > 20)     // arquivos txt não existentes
+            JOptionPane.showMessageDialog(getContentPane(),"Não exite arquivo para o item selecionado!"); 
         
         if(nomeArquivo == null && listaArquivoRodadas.getSelectedIndex() != 0){
-                JOptionPane.showMessageDialog(getContentPane(),"Comece a importação pela primeira rodada");
+            JOptionPane.showMessageDialog(getContentPane(),"Comece a importação pela primeira rodada");
         }
         
         if(listaArquivoRodadas.getSelectedIndex() == 0){
             nomeArquivo = "rodada" + listaArquivoRodadas.getSelectedIndex() + ".txt";
-            sir.importarResultados(nomeArquivo, listaArquivoRodadas.getSelectedIndex());
-            sir.salvarEmXML();
-            rI.adicionarRodadasImportadas(nomeArquivo);
-            //rI.adicionarRodadasImportadas(nomeArquivo);
-     //       System.out.println("RodadaImportada"+sir.getNomesRodadas().get(0));
-     //       System.out.println("UltimoNumero"+sir.numeroRodadaSelecionada());
+            rodadaEvento = new RodadaEvent(nomeArquivo);
+            rodadaEvento.ImportarRodada();
+            rodadaEvento.adicionarRodadasImportadas(nomeArquivo);
             numeroRodadaAtual = listaArquivoRodadas.getSelectedIndex();
-            JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");     
-            
+            JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");        
         }
-                              
+        
         if(listaArquivoRodadas.getSelectedIndex() == (numeroRodadaAtual+1)){    // próxima rodada
             nomeArquivo = "rodada" + listaArquivoRodadas.getSelectedIndex() + ".txt";
-            sir.importarResultados(nomeArquivo, listaArquivoRodadas.getSelectedIndex());
-            sir.salvarEmXML();
-            rI.adicionarRodadasImportadas(nomeArquivo);
-            //rI.adicionarRodadasImportadas(nomeArquivo);
+            rodadaEvento = new RodadaEvent(nomeArquivo);
+            rodadaEvento.ImportarRodada();
+            rodadaEvento.adicionarRodadasImportadas(nomeArquivo);
             numeroRodadaAtual = listaArquivoRodadas.getSelectedIndex();
             JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");
             
         }
+        
         else if(listaArquivoRodadas.getSelectedIndex() < 20)
             JOptionPane.showMessageDialog(getContentPane(),"Escolha uma rodada sucessora imediata.");
         
-   
-        
-        if(rI.getRodadasImportadas() != null){
-            for(String nomeArquivoImportado : rI.getRodadasImportadas()){
+        if(rodadaEvento.getRodadasImportadas() != null){
+            for(String nomeArquivoImportado : rodadaEvento.getRodadasImportadas()){
                 if(nomeArquivoImportado != null){
                     if(listaArquivosImportados.contains(nomeArquivoImportado) == false)
                         listaArquivosImportados.addElement(nomeArquivoImportado);
                 }
             }
             listaRodadasImportadas.setModel(listaArquivosImportados);
-        } */
+        }
         
     }//GEN-LAST:event_btnImportarRodadaActionPerformed
 

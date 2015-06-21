@@ -18,6 +18,7 @@ import modelo.entidade.Rodada;
  * @author Amanda
  */
 public class RodadaDAO implements BaseCrudDAO<Rodada>{
+
     private final String nomeDaTabela = "tabela_rodada";
     private String query;
     private static ConexaoDAO conexao;
@@ -26,6 +27,7 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
     public RodadaDAO(ConexaoDAO conexao) {
         this.conexao = conexao;
     }
+
 
     RodadaDAO() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
