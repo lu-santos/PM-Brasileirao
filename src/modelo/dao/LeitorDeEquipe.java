@@ -12,6 +12,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.entidade.Campeonato;
 import modelo.entidade.Equipe;
 
 /**
@@ -19,8 +22,8 @@ import modelo.entidade.Equipe;
  * @author Lucianna
  */
 public class LeitorDeEquipe implements LeitorDAO{
-    private List<Equipe> listaEquipes = new ArrayList<>();
     private static final String nomeArquivo = "equipes.txt";
+    private EquipeDAO equipeDAO = new EquipeDAO();
     
     public LeitorDeEquipe() {
         File arquivoTXT = new File(nomeArquivo);
@@ -31,18 +34,23 @@ public class LeitorDeEquipe implements LeitorDAO{
     @Override
     public void lerArquivo() {
         BufferedReader ler = null;
+        int i = 0;
         try{
             try{
                 ler = new BufferedReader(new FileReader(nomeArquivo));
                 String linha = ler.readLine();
+                
                 while(ler.ready()){
                     linha = ler.readLine();
-                    Equipe e = new Equipe(linha);
-                    if(listaEquipes.size() <= 20)
-                        listaEquipes.add(e);
+                    Equipe equipe = new Equipe(linha);
+                    if(i <= 20)
+                        equipeDAO.incluir(equipe);
+                    i++;
                 }
             }
-            finally{
+            catch (Exception ex) {
+                Logger.getLogger(LeitorDeEquipe.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
                 if(ler != null)
                     ler.close();
             }
@@ -51,4 +59,9 @@ public class LeitorDeEquipe implements LeitorDAO{
         }
     }
     
+    public void incluirCampeonato(String linha) {
+        int ano = Integer.parseInt(linha);
+        Campeonato campeonato = new Campeonato(ano);
+        
+    }
 }

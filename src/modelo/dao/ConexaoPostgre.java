@@ -22,25 +22,21 @@ public class ConexaoPostgre implements ConexaoDAO{
     private Connection conexao;
     
     @Override
-    public void abrirConexao() throws Exception{
+    public Connection abrirConexao() throws Exception{
         try{
            Class.forName(bdSqlDriver);
         }catch(ClassNotFoundException e){
             System.out.println("Classe nao encontrada");
             throw e;
         }
-    }
-            
-    public Connection retornarConexao() throws Exception{
         try{
-            abrirConexao();
             conexao = DriverManager.getConnection(bdURL, usuario, senha);
         }catch(SQLException e){
             System.out.println("Erro na conexao");
             throw e;
         }
         return conexao;
-    } 
+    }
     
     @Override
     public void fecharConexao() throws SQLException{

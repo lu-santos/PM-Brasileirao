@@ -12,7 +12,7 @@ import java.util.List;
  * @author Amanda
  * @param <T>
  */
-public interface BaseCrudDAO<T> extends ConexaoDAO {
+public interface BaseCrudDAO<T> {
     public void incluir(T t) throws Exception;
     public void atualizar(T t) throws Exception;
     public T visualizar() throws Exception;

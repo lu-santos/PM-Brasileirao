@@ -16,7 +16,7 @@ public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
 
     @Override
     public void incluir(Campeonato t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
@@ -38,15 +38,4 @@ public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
     public List<Campeonato> listar() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void abrirConexao() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void fecharConexao() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

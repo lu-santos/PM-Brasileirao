@@ -12,6 +12,6 @@ import java.sql.Connection;
  * @author Amanda
  */
 public interface ConexaoDAO {
-    public void abrirConexao() throws Exception;
+    public Connection abrirConexao() throws Exception;
     public void fecharConexao() throws Exception;   
 }
