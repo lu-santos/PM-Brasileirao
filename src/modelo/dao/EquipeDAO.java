@@ -17,7 +17,7 @@ import modelo.entidade.Equipe;
  */
 public class EquipeDAO implements BaseCrudDAO<Equipe>{
     private final String nomeDaTabela = "tabela_equipe";
-    String query;
+    private String query;
     private static ConexaoDAO conexao;
     private Connection conectar;
     

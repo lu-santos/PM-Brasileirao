@@ -16,7 +16,7 @@ import modelo.entidade.Campeonato;
  */
 public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
     private final String nomeDaTabela = "tabela_campeonato";
-    String query;
+    private String query;
     private static ConexaoDAO conexao;
     private Connection conectar;
     

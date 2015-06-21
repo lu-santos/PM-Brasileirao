@@ -24,6 +24,7 @@ import modelo.entidade.Equipe;
 public class LeitorDeEquipe implements LeitorDAO{
     private EquipeDAO equipeDAO;
     private CampeonatoDAO campeonatoDAO;
+    private EquipeParticipanteDAO equipeParticipanteDAO;
     private String nomeArquivo;
     private ConexaoDAO conexao = new ConexaoPostgre();
     
@@ -71,6 +72,13 @@ public class LeitorDeEquipe implements LeitorDAO{
     }
     
     public void incluirCampeonato(String linha) throws Exception {
+        int ano = Integer.parseInt(linha);
+        Campeonato campeonato = new Campeonato(ano);
+        campeonatoDAO.incluir(campeonato);
+        
+    }
+    
+    public void incluirEquipeParticipante(String linha) throws Exception {
         int ano = Integer.parseInt(linha);
         Campeonato campeonato = new Campeonato(ano);
         campeonatoDAO.incluir(campeonato);
