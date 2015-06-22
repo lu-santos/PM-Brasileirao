@@ -34,7 +34,7 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
         initComponents();
         String arquivos;
         
-        for(int i = 0; i < 38; i++){
+        for(int i = 1; i < 39; i++){
             arquivos = "Rodada" + " " + i;
             listaArquivos.addElement(arquivos);
         }
@@ -147,8 +147,8 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarRodadaActionPerformed
- 
-        if (listaArquivoRodadas.getSelectedIndex() > 20)     // arquivos txt não existentes
+        int numeroRodada;
+        if (listaArquivoRodadas.getSelectedIndex() > 35)     // arquivos txt não existentes
             JOptionPane.showMessageDialog(getContentPane(),"Não exite arquivo para o item selecionado!"); 
         
         if(nomeArquivo == null && listaArquivoRodadas.getSelectedIndex() != 0){
@@ -156,7 +156,8 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
         }
         
         if(listaArquivoRodadas.getSelectedIndex() == 0){
-            nomeArquivo = "rodada" + listaArquivoRodadas.getSelectedIndex() + ".txt";
+            numeroRodada = listaArquivoRodadas.getSelectedIndex()+1;
+            nomeArquivo = "arquivos_de_leitura\\rodada" + numeroRodada + ".txt";
             rodadaEvento = new RodadaEvent(nomeArquivo);
             rodadaEvento.ImportarRodada();
             rodadaEvento.adicionarRodadasImportadas(nomeArquivo);
@@ -165,7 +166,8 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
         }
         
         if(listaArquivoRodadas.getSelectedIndex() == (numeroRodadaAtual+1)){    // próxima rodada
-            nomeArquivo = "rodada" + listaArquivoRodadas.getSelectedIndex()+1 + ".txt";
+            numeroRodada = listaArquivoRodadas.getSelectedIndex()+1;
+            nomeArquivo = "arquivos_de_leitura\\rodada" + numeroRodada + ".txt";
             rodadaEvento = new RodadaEvent(nomeArquivo);
             rodadaEvento.ImportarRodada();
             rodadaEvento.adicionarRodadasImportadas(nomeArquivo);
@@ -179,10 +181,8 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
         
         if(rodadaEvento.getRodadasImportadas() != null){
             for(String nomeArquivoImportado : rodadaEvento.getRodadasImportadas()){
-                if(nomeArquivoImportado != null){
-                    if(listaArquivosImportados.contains(nomeArquivoImportado) == false)
-                        listaArquivosImportados.addElement(nomeArquivoImportado);
-                }
+                if(nomeArquivoImportado != null && listaArquivosImportados.contains(nomeArquivoImportado) == false)
+                    listaArquivosImportados.addElement(nomeArquivoImportado);
             }
             listaRodadasImportadas.setModel(listaArquivosImportados);
         }

@@ -27,12 +27,7 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
     public RodadaDAO(ConexaoDAO conexao) {
         this.conexao = conexao;
     }
-
-
-    RodadaDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+ 
     @Override
     public void incluir(Rodada t) throws Exception {
         query = "INSERT INTO " + nomeDaTabela + "(id_turno, id_campeonato, numero_rodada) "
@@ -43,6 +38,7 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
         pst.setInt(2, t.getIdTurno());
         pst.setInt(3, t.getNumeroRodada());
         pst.executeUpdate();
+        System.out.print("teste20");
         conexao.fecharConexao();
     }
 

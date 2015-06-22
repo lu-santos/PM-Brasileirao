@@ -30,8 +30,8 @@ public class LeitorDeEquipe implements LeitorDAO{
     
     public LeitorDeEquipe(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
-        equipeDAO = new EquipeDAO(conexao);
-        campeonatoDAO = new CampeonatoDAO(conexao);
+        this.equipeDAO = new EquipeDAO(conexao);
+        this.campeonatoDAO = new CampeonatoDAO(conexao);
     }
     
     @Override
@@ -54,7 +54,7 @@ public class LeitorDeEquipe implements LeitorDAO{
                 while(ler.ready()){
                     linha = ler.readLine();
                     Equipe equipe = new Equipe(linha);
-                    if(i <= 20)
+                    if(i < 20)
                         equipeDAO.incluir(equipe);
                     i++;
                 }

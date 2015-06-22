@@ -20,7 +20,7 @@ public class EquipeEvent {
     
     public EquipeEvent(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
-        this.leitor = new LeitorDeJogos(nomeArquivo);
+        this.leitor = new LeitorDeEquipe(nomeArquivo);
     }
 
     public void ImportarEquipe() {

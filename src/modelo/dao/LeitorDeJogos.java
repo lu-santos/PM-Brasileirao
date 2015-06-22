@@ -31,15 +31,19 @@ public class LeitorDeJogos implements LeitorDAO{
     private EquipeDAO equipeDAO;
     private CampeonatoDAO campeonatoDAO;
     private List<Jogo> listaDeJogos = new ArrayList<>();
-    private File nomeArquivoPartidas;
-    private BufferedReader reader;
     private int numeroTurno, anoCampeonato, idTurno, idRodada, idEquipeMandante, idEquipeVisitante, idCampeonato;
     
-    private RodadaDAO rodadaDAO = new RodadaDAO();
+    private ConexaoDAO conexao = new ConexaoPostgre();
+    private RodadaDAO rodadaDAO;
     String nomeArquivo;
 
      public LeitorDeJogos(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
+        this.jogoDAO = new JogoDAO(conexao);
+        this.turnoDAO = new TurnoDAO(conexao);
+        this.equipeDAO = new EquipeDAO(conexao);
+        this.campeonatoDAO = new CampeonatoDAO(conexao);
+        this.rodadaDAO = new RodadaDAO(conexao);
     }
    
     @Override
@@ -50,42 +54,34 @@ public class LeitorDeJogos implements LeitorDAO{
     }
     
     private void leitura() {
+        System.out.println("teste9");
+        BufferedReader ler = null;
         try{
-            lerListaDeJogos();            
+            try {
+                ler = new BufferedReader(new FileReader(nomeArquivo));
+                String linha = ler.readLine();
+                String[] primeiraLinha = linha.split(" ");     
+                incluirRodada(primeiraLinha[1]);
+                System.out.println(nomeArquivo);
+                while (ler.ready()) {
+                    linha = ler.readLine();
+                    System.out.println("10");
+                    jogoDAO.incluir(processarLinhaJogo(linha));
+                }
+                rodada.setPartidasNaRodada(listaDeJogos);
+            }finally {
+                if (ler != null)
+                    ler.close();
+            }
         }catch (Exception e) {
             System.out.println(e.toString());
         }
     }
-    
-    public void lerListaDeJogos() throws FileNotFoundException, IOException, Exception{
-        try {
-            reader = new BufferedReader(
-                   new FileReader(nomeArquivoPartidas), 4096);
-            processarLinhaArquivo(reader);
-            rodada.setPartidasNaRodada(listaDeJogos);
-        }finally {
-            if (reader != null)
-                reader.close();
-        }
-    }
-    
-    public void processarLinhaArquivo(BufferedReader reader) throws IOException, Exception{
-        String linha;
-        linha = reader.readLine();
         
-        String[] primeiraLinha = linha.split(" ");     
-        incluirRodada(primeiraLinha[1]);
-        
-        while (reader.ready()) {
-            linha = reader.readLine();
-            jogoDAO.incluir(processarLinhaJogo(linha));
-        }
-    }
-    
      public void incluirRodada(String linha) throws Exception {
         int numeroRodada = Integer.parseInt(linha);
-        idCampeonato = getIdCampeonato();
-        
+        System.out.println("teste5");
+        getIdCampeonato();
         if (numeroRodada == 1) {
             numeroTurno = 1;
             gerarRodadaEmTurnoNovo(numeroRodada);
@@ -122,14 +118,16 @@ public class LeitorDeJogos implements LeitorDAO{
     }
 
     private void inserirTurno() throws Exception {
+        System.out.println("tabela turno " + idCampeonato);
         turno = new Turno(idCampeonato, numeroTurno);
         turnoDAO.incluir(turno);
     }
 
-    private int getIdCampeonato() throws Exception {
-        int ultimoCampeonato = campeonatoDAO.listar().size();
+    private void getIdCampeonato() throws Exception {
+        int ultimoCampeonato = campeonatoDAO.listar().size()-1;
         campeonato = campeonatoDAO.listar().get(ultimoCampeonato);
-        return campeonato.getIdCampeonato();
+        System.out.println(campeonato.getIdCampeonato());
+        idCampeonato = campeonato.getIdCampeonato();
     }
      
     public Jogo processarLinhaJogo(String linha) throws Exception{
@@ -141,7 +139,7 @@ public class LeitorDeJogos implements LeitorDAO{
         String[] valores = partes[1].split("x"); 
         int golMandante = Integer.parseInt(valores[0]);
         int golVisitante = Integer.parseInt(valores[1]);
-        
+        System.out.println("teste11");
         idRodada = rodadaDAO.getRegistro(numeroTurno).getIdRodada();
         jogo = new Jogo(idRodada, idTurno, idCampeonato, golMandante, golVisitante, nomeMandante, nomeVisitante);
         return jogo;

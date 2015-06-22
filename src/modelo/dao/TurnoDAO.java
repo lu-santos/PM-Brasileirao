@@ -18,7 +18,7 @@ import modelo.entidade.Turno;
  * @author Amanda
  */
 public class TurnoDAO implements BaseCrudDAO<Turno>{
-    private final String nomeDaTabela = "tabela_rodada";
+    private final String nomeDaTabela = "tabela_turno";
     private String query;
     private static ConexaoDAO conexao;
     private Connection conectar;
