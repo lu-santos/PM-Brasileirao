@@ -86,12 +86,12 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
     }
 
     @Override
-    public Rodada getRegistro(int id) throws Exception {
+    public Rodada getRegistro(int numero_rodada) throws Exception {
         PreparedStatement stmt = null;
         ResultSet registro = null;
         
         conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_rodada = " + id; 
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE numero_rodada = " + numero_rodada; 
         Rodada rodada = new Rodada();
         try{
             stmt = conectar.prepareStatement(query);

@@ -79,12 +79,12 @@ public class TurnoDAO implements BaseCrudDAO<Turno>{
     }
 
     @Override
-    public Turno getRegistro(int id) throws Exception {
+    public Turno getRegistro(int numeroTurno) throws Exception {
         PreparedStatement stmt = null;
         ResultSet registro = null;
         
         conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_turno = " + id; 
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE numero_turno = " + numeroTurno; 
         Turno turno = new Turno();
         try{
             stmt = conectar.prepareStatement(query);

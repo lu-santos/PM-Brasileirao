@@ -11,7 +11,6 @@ package modelo.entidade;
  * @author Lucianna
  */
 public class Performance {
-    private int idParticipante;
     private int idEquipe;
     private int idCampeonato;
     private int idPerformance;
@@ -30,8 +29,7 @@ public class Performance {
     private boolean visitante;
     private boolean mandante;
 
-    public Performance(int idParticipante, int idEquipe, int idCampeonato, int idTurno, int idRodada, int pontosGanhos, int jogos, int vitorias, int empates, int derrotas, int golsPro, int golsContra, double saldo, double aproveitamento, boolean visitante, boolean mandante) {
-        this.idParticipante = idParticipante;
+    public Performance(int idEquipe, int idCampeonato, int idTurno, int idRodada, int pontosGanhos, int jogos, int vitorias, int empates, int derrotas, int golsPro, int golsContra, double saldo, double aproveitamento, boolean visitante, boolean mandante) {
         this.idEquipe = idEquipe;
         this.idCampeonato = idCampeonato;
         this.idTurno = idTurno;
@@ -50,14 +48,6 @@ public class Performance {
     }
     
     public Performance(){
-    }
-
-    public int getIdParticipante() {
-        return idParticipante;
-    }
-
-    public void setIdParticipante(int idParticipante) {
-        this.idParticipante = idParticipante;
     }
 
     public int getIdEquipe() {

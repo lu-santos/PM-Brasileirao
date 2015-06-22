@@ -165,7 +165,7 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
         }
         
         if(listaArquivoRodadas.getSelectedIndex() == (numeroRodadaAtual+1)){    // próxima rodada
-            nomeArquivo = "rodada" + listaArquivoRodadas.getSelectedIndex() + ".txt";
+            nomeArquivo = "rodada" + listaArquivoRodadas.getSelectedIndex()+1 + ".txt";
             rodadaEvento = new RodadaEvent(nomeArquivo);
             rodadaEvento.ImportarRodada();
             rodadaEvento.adicionarRodadasImportadas(nomeArquivo);

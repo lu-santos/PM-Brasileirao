@@ -15,8 +15,6 @@ public class Jogo {
     private int idRodada;
     private int idTurno;
     private int idCampeonato;
-    private int idEquipeMandante;
-    private int idEquipeVisitante;
     private String equipeMandante;
     private String equipeVisitante;
     private int golMandante;
@@ -26,12 +24,10 @@ public class Jogo {
         
     }
 
-    public Jogo(int idRodada, int idTurno, int idCampeonato, int idEquipeMandante, int idEquipeVisitante, int golMandante, int golVisitante,String equipeMandante, String equipeVisitante) {
+    public Jogo(int idRodada, int idTurno, int idCampeonato, int idEquipeMandante, int golVisitante,String equipeMandante, String equipeVisitante) {
         this.idRodada = idRodada;
         this.idTurno = idTurno;
         this.idCampeonato = idCampeonato;
-        this.idEquipeMandante = idEquipeMandante;
-        this.idEquipeVisitante = idEquipeVisitante;
         this.golMandante = golMandante;
         this.golVisitante = golVisitante;
         this.equipeMandante = equipeMandante;
@@ -84,22 +80,6 @@ public class Jogo {
 
     public void setIdCampeonato(int idCampeonato) {
         this.idCampeonato = idCampeonato;
-    }
-
-    public int getIdEquipeMandante() {
-        return idEquipeMandante;
-    }
-
-    public void setIdEquipeMandante(int idEquipeMandante) {
-        this.idEquipeMandante = idEquipeMandante;
-    }
-
-    public int getIdEquipeVisitante() {
-        return idEquipeVisitante;
-    }
-
-    public void setIdEquipeVisitante(int idEquipeVisitante) {
-        this.idEquipeVisitante = idEquipeVisitante;
     }
 
     public int getGolMandante() {

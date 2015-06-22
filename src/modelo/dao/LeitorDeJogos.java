@@ -14,18 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.entidade.Jogo;
 import modelo.entidade.Rodada;
+import modelo.entidade.Campeonato;
+import modelo.entidade.Turno;
 
 /**
  *
  * @author Amanda
  */
 public class LeitorDeJogos implements LeitorDAO{
-    public Rodada rodada;
-    public Jogo jogo = new Jogo();
-    public JogoDAO jogoDAO;
-    List<Jogo> listaDeJogos = new ArrayList<>();
-    File nomeArquivoPartidas;
-    BufferedReader reader;
+    private Rodada rodada;
+    private Turno turno;
+    private Campeonato campeonato;
+    private Jogo jogo;
+    private JogoDAO jogoDAO;
+    private TurnoDAO turnoDAO;
+    private EquipeDAO equipeDAO;
+    private CampeonatoDAO campeonatoDAO;
+    private List<Jogo> listaDeJogos = new ArrayList<>();
+    private File nomeArquivoPartidas;
+    private BufferedReader reader;
+    private int numeroTurno, anoCampeonato, idTurno, idRodada, idEquipeMandante, idEquipeVisitante, idCampeonato;
     
     private RodadaDAO rodadaDAO = new RodadaDAO();
     String nomeArquivo;
@@ -63,40 +71,79 @@ public class LeitorDeJogos implements LeitorDAO{
     
     public void processarLinhaArquivo(BufferedReader reader) throws IOException, Exception{
         String linha;
-        int i = 0;
+        linha = reader.readLine();
+        
+        String[] primeiraLinha = linha.split(" ");     
+        incluirRodada(primeiraLinha[1]);
+        
         while (reader.ready()) {
             linha = reader.readLine();
-            if(i == 0){
-                String[] primeiraLinha = linha.split(" ");     
-                incluirRodada(primeiraLinha[1]);
-            }
-            else{
-                jogoDAO.incluir(processarLinhaJogo(linha));
-            }
-            i++;
+            jogoDAO.incluir(processarLinhaJogo(linha));
         }
     }
     
      public void incluirRodada(String linha) throws Exception {
         int numeroRodada = Integer.parseInt(linha);
-        rodada = new Rodada(numeroRodada);
+        idCampeonato = getIdCampeonato();
+        
+        if (numeroRodada == 1) {
+            numeroTurno = 1;
+            gerarRodadaEmTurnoNovo(numeroRodada);
+        }
+        else if (numeroRodada < 20) {
+            numeroTurno = 1;
+            gerarRodada(numeroRodada);
+        }
+        
+        if (numeroRodada == 20 ) {
+            numeroTurno = 2;
+            gerarRodadaEmTurnoNovo(numeroRodada);
+        }
+        else if (numeroRodada > 20) {
+            numeroTurno = 2;
+            gerarRodada(numeroRodada);
+        }
         rodadaDAO.incluir(rodada);  
     }
+
+    private void gerarRodada(int numeroRodada) throws Exception {
+        idTurno = getIdTurno();
+        rodada = new Rodada(idTurno, idCampeonato, numeroRodada);
+    }
+
+    private void gerarRodadaEmTurnoNovo(int numeroRodada) throws Exception {
+        inserirTurno();
+        gerarRodada(numeroRodada);
+    }
+
+    private int getIdTurno() throws Exception {
+        turno = turnoDAO.getRegistro(numeroTurno);
+        return turno.getIdTurno();
+    }
+
+    private void inserirTurno() throws Exception {
+        turno = new Turno(idCampeonato, numeroTurno);
+        turnoDAO.incluir(turno);
+    }
+
+    private int getIdCampeonato() throws Exception {
+        int ultimoCampeonato = campeonatoDAO.listar().size();
+        campeonato = campeonatoDAO.listar().get(ultimoCampeonato);
+        return campeonato.getIdCampeonato();
+    }
      
-    public Jogo processarLinhaJogo(String linha){
-        String[] partesSemX = linha.split(" x ");
-        String lado1 = partesSemX[0];
-        String lado2 = partesSemX[1];
-        String[] resultadoMandante = lado1.split(" ");
-        String[] resultadoVisitante = lado2.split(" ");
-
-        jogo.setEquipeMandante(resultadoMandante[0]);
-        jogo.setGolMandante(Integer.parseInt(resultadoMandante[1]));
-
-        jogo.setGolVisitante(Integer.parseInt(resultadoVisitante[0]));
-        jogo.setEquipeVisitante(resultadoVisitante[1]);
-
+    public Jogo processarLinhaJogo(String linha) throws Exception{
+        String[] partes = linha.split(" ");
+        String nomeMandante = partes[0];      
+        String gols = partes[1];              
+        String nomeVisitante = partes[2];     
+                    
+        String[] valores = partes[1].split("x"); 
+        int golMandante = Integer.parseInt(valores[0]);
+        int golVisitante = Integer.parseInt(valores[1]);
+        
+        idRodada = rodadaDAO.getRegistro(numeroTurno).getIdRodada();
+        jogo = new Jogo(idRodada, idTurno, idCampeonato, golMandante, golVisitante, nomeMandante, nomeVisitante);
         return jogo;
-    
     }
 }

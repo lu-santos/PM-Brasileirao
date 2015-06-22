@@ -188,10 +188,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         AbrirJanela.abrirJanela(new ClassificacaoTurno2(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoTurno2ActionPerformed
 
-    private void itemImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarRodadaActionPerformed
-        AbrirJanela.abrirJanela(new ImportarRodada(), painelTrabalho);
-    }//GEN-LAST:event_itemImportarRodadaActionPerformed
-
     private void itemImportarEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarEquipeActionPerformed
         AbrirJanela.abrirJanela(new ImportarEquipe(), painelTrabalho);
     }//GEN-LAST:event_itemImportarEquipeActionPerformed
@@ -211,6 +207,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void itemResultadoEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemResultadoEquipeActionPerformed
         AbrirJanela.abrirJanela(new ResultadoEquipe(), painelTrabalho);
     }//GEN-LAST:event_itemResultadoEquipeActionPerformed
+
+    private void itemImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarRodadaActionPerformed
+        AbrirJanela.abrirJanela(new ImportarRodada(), painelTrabalho);
+    }//GEN-LAST:event_itemImportarRodadaActionPerformed
 
     /**
      * @param args the command line arguments

@@ -82,7 +82,7 @@ public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
         PreparedStatement stmt = null;
         ResultSet registro = null;
         conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_campeonato = " + id; 
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE ano = " + id; 
         Campeonato campeonato = new Campeonato();
         
         try{
