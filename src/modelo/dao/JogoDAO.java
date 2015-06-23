@@ -26,6 +26,7 @@ public class JogoDAO implements BaseCrudDAO<Jogo>{
     
     public JogoDAO(ConexaoDAO conexao) {
         this.conexao = conexao;
+        System.out.println("teste12");
     }
     
     @Override
@@ -37,12 +38,13 @@ public class JogoDAO implements BaseCrudDAO<Jogo>{
         pst.setInt(1, t.getIdRodada());
         pst.setInt(2, t.getIdTurno());
         pst.setInt(3, t.getIdCampeonato());
-        pst.setInt(6, t.getGolMandante());
-        pst.setInt(7, t.getGolVisitante());
-        pst.setString(8, t.getEquipeMandante());
-        pst.setString(9, t.getEquipeVisitante());
+        pst.setInt(4, t.getGolMandante());
+        pst.setInt(5, t.getGolVisitante());
+        pst.setString(6, t.getEquipeMandante());
+        pst.setString(7, t.getEquipeVisitante());
         pst.executeUpdate();
         conexao.fecharConexao();
+        System.out.println("teste13");
     }
 
     @Override
