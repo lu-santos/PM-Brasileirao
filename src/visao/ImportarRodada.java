@@ -6,8 +6,6 @@
 
 package visao;
 
-//import Servicos.RodadasImportadas;
-//import Servicos.ServicoImportacaoResultado;
 import controlador.RodadaEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
