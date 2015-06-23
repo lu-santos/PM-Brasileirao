@@ -33,7 +33,7 @@ public class TurnoDAO implements BaseCrudDAO<Turno>{
                 + "VALUES(?, ?);";
         conectar = conexao.abrirConexao();
         PreparedStatement pst = conectar.prepareStatement(query);
-        pst.setInt(1, t.getIdTurno());
+        pst.setInt(1, t.getIdCampeonato());
         pst.setInt(2, t.getNumeroTurno());
         pst.executeUpdate();
         conexao.fecharConexao();

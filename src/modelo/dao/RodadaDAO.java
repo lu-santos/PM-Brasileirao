@@ -34,8 +34,8 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
                 + "VALUES(?, ?, ?);";
         conectar = conexao.abrirConexao();
         PreparedStatement pst = conectar.prepareStatement(query);
-        pst.setInt(1, t.getIdRodada());
-        pst.setInt(2, t.getIdTurno());
+        pst.setInt(1, t.getIdTurno());
+        pst.setInt(2, t.getIdCampeonato());
         pst.setInt(3, t.getNumeroRodada());
         pst.executeUpdate();
         System.out.print("teste20");
