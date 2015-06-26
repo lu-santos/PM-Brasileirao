@@ -17,7 +17,7 @@ import modelo.entidade.Equipe;
 public class EquipeEsperada {
     
     public String[] getEquipeEsperada() {
-        String resultadoEsperado[] = {"Cruzeiro", "Criciuma", "Gremio", "Sao-Paulo", "Sao-Paulo", "Coritiba", 
+        String resultadoEsperado[] = {"Cruzeiro", "Criciuma", "Gremio", "Sao-Paulo", "Coritiba", 
         "Fluminense", "Vasco", "Internacional", "Vitoria", "Botafogo", "Corinthians", "Flamengo",
         "Santos", "Atletico-MG", "Atletico-PR", "Portuguesa", "Bahia", "Nautico", "Ponte-Preta", "Goias"};
         return resultadoEsperado;

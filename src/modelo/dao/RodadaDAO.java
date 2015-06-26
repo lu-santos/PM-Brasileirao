@@ -69,12 +69,12 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                Rodada rodada = new Rodada();
+                Rodada rodada = null;
                 rodada = registrarDados(registro, rodada);
                 rodadas.add(rodada);
             }
         }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
+            System.out.println("Erro na listagem de rodada: " + e.getMessage());
         }finally{
             conexao.fecharConexao();
         }
@@ -88,12 +88,12 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
         
         conectar = conexao.abrirConexao();
         query = "SELECT * FROM " + nomeDaTabela + " WHERE numero_rodada = " + numero_rodada; 
-        Rodada rodada = new Rodada();
+        Rodada rodada = null;
         try{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                registrarDados(registro, rodada);
+                rodada = registrarDados(registro, rodada);
             }
         }catch(SQLException e){
             System.out.println("Erro na listagem " + e.getMessage());
@@ -104,6 +104,7 @@ public class RodadaDAO implements BaseCrudDAO<Rodada>{
     }
     
     private Rodada registrarDados(ResultSet registro, Rodada rodada) throws SQLException {
+        rodada = new Rodada();
         int id_rodada = registro.getInt("id_rodada");
         int id_turno = registro.getInt("id_turno");
         int id_campeonato = registro.getInt("id_campeonato");

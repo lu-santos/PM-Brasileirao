@@ -55,7 +55,9 @@ public class LeitorDeEquipe implements LeitorDAO{
                     linha = ler.readLine();
                     Equipe equipe = new Equipe(linha);
                     if(i < 20)
-                        equipeDAO.incluir(equipe);
+                        if (equipeDAO.listar().size() < 20) {
+                            equipeDAO.incluir(equipe);
+                        }
                     i++;
                 }
             }
@@ -72,7 +74,7 @@ public class LeitorDeEquipe implements LeitorDAO{
     
     public void incluirCampeonato(String linha) throws Exception {
         Campeonato campeonato = new Campeonato(anoCampeonato);
-        campeonatoDAO.incluir(campeonato);
-        
+        if (campeonatoDAO.getRegistro(anoCampeonato) == null)
+            campeonatoDAO.incluir(campeonato);
     }
 }

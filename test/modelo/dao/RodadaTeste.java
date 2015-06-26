@@ -24,6 +24,7 @@ public class RodadaTeste {
     private RodadaDAO rodadaDAO = new RodadaDAO(conexaoDAO); 
     private RodadaEsperada resultadoEsperado = new RodadaEsperada();
     private List<Rodada> rodadas;
+    private int numeroRodada = 1;
     
     @Test
     public void teste() throws Exception {
@@ -39,12 +40,11 @@ public class RodadaTeste {
     }
     
     public void testarListarRodada() throws Exception {
-        for(int i = 0; i < 20; i++) {
-            assertEquals(rodadas.get(i).getNumeroRodada(), resultadoEsperado.getEquipeEsperada()[i]);
+        for(int i = 0; i < rodadas.size(); i++) {
+            assertEquals(rodadas.get(i).getNumeroRodada(), resultadoEsperado.getRodadaEsperada()[i]);
         }
     }
     public void testarGetRegistro() throws Exception {
-        assertEquals(rodadaDAO.getRegistro(0), resultadoEsperado.getEquipeEsperada()[1]);
+        assertEquals(rodadaDAO.getRegistro(numeroRodada).getNumeroRodada(), resultadoEsperado.getRodadaEsperada()[0]);
     }
-    
 }

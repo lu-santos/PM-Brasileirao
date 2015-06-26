@@ -11,8 +11,8 @@ package resultadoEsperado;
  * @author Lucianna
  */
 public class RodadaEsperada {
-    public int[] getEquipeEsperada() {
-        int resultadoEsperado[] = {1};
+    public int[] getRodadaEsperada() {
+        int resultadoEsperado[] = {1, 2};
         return resultadoEsperado;
     }
 }

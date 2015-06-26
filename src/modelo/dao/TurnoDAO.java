@@ -66,12 +66,12 @@ public class TurnoDAO implements BaseCrudDAO<Turno>{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                Turno turno = new Turno();
+                Turno turno = null;
                 turno = registrarDados(registro, turno);
                 turnos.add(turno);
             }
         }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
+            System.out.println("Erro na listagem turno: " + e.getMessage());
         }finally{
             conexao.fecharConexao();
         }
@@ -85,12 +85,12 @@ public class TurnoDAO implements BaseCrudDAO<Turno>{
         
         conectar = conexao.abrirConexao();
         query = "SELECT * FROM " + nomeDaTabela + " WHERE numero_turno = " + numeroTurno; 
-        Turno turno = new Turno();
+        Turno turno = null;
         try{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                registrarDados(registro, turno);
+                turno = registrarDados(registro, turno);
             }
         }catch(SQLException e){
             System.out.println("Erro na listagem " + e.getMessage());
@@ -101,6 +101,7 @@ public class TurnoDAO implements BaseCrudDAO<Turno>{
     }
     
     private Turno registrarDados(ResultSet registro, Turno turno) throws SQLException {
+        turno = new Turno();
         int id_turno = registro.getInt("id_turno");
         int id_campeonato = registro.getInt("id_campeonato");
         int numero_turno = registro.getInt("numero_turno");
@@ -108,6 +109,5 @@ public class TurnoDAO implements BaseCrudDAO<Turno>{
         turno.setIdCampeonato(id_campeonato);
         turno.setNumeroTurno(numero_turno);
         return turno;
-    }
-    
+    }   
 }

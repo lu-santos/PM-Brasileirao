@@ -31,11 +31,11 @@ public class LeitorDeJogos implements LeitorDAO{
     private EquipeDAO equipeDAO;
     private CampeonatoDAO campeonatoDAO;
     private List<Jogo> listaDeJogos = new ArrayList<>();
-    private int numeroTurno, anoCampeonato, idTurno, idRodada, idEquipeMandante, idEquipeVisitante, idCampeonato;
-    
+    private int idTurno, idRodada, idEquipeMandante, idEquipeVisitante, idCampeonato;
+    private int numeroTurno, numeroRodada, anoCampeonato;
     private ConexaoDAO conexao = new ConexaoPostgre();
     private RodadaDAO rodadaDAO;
-    String nomeArquivo;
+    private String nomeArquivo;
 
      public LeitorDeJogos(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
@@ -54,7 +54,6 @@ public class LeitorDeJogos implements LeitorDAO{
     }
     
     private void leitura() {
-        System.out.println("teste9");
         BufferedReader ler = null;
         try{
             try {
@@ -62,11 +61,12 @@ public class LeitorDeJogos implements LeitorDAO{
                 String linha = ler.readLine();
                 String[] primeiraLinha = linha.split(" ");     
                 incluirRodada(primeiraLinha[1]);
-                System.out.println(nomeArquivo);
-                while (ler.ready()) {
-                    linha = ler.readLine();
-                    System.out.println("10");
-                    jogoDAO.incluir(processarLinhaJogo(linha));
+                if (jogoDAO.getRegistro(idRodada) == null) {
+                    while (ler.ready()) {
+                        linha = ler.readLine();
+                        jogo = processarLinhaJogo(linha);
+                        jogoDAO.incluir(jogo);
+                    }
                 }
                 rodada.setPartidasNaRodada(listaDeJogos);
             }finally {
@@ -79,9 +79,8 @@ public class LeitorDeJogos implements LeitorDAO{
     }
         
      public void incluirRodada(String linha) throws Exception {
-        int numeroRodada = Integer.parseInt(linha);
-        System.out.println("teste5");
-        getIdCampeonato();
+        numeroRodada = Integer.parseInt(linha);
+        gerarIdCampeonato();
         if (numeroRodada == 1) {
             numeroTurno = 1;
             gerarRodadaEmTurnoNovo(numeroRodada);
@@ -99,7 +98,8 @@ public class LeitorDeJogos implements LeitorDAO{
             numeroTurno = 2;
             gerarRodada(numeroRodada);
         }
-        rodadaDAO.incluir(rodada);  
+        if (rodadaDAO.getRegistro(numeroRodada) == null)
+            rodadaDAO.incluir(rodada);  
     }
 
     private void gerarRodada(int numeroRodada) throws Exception {
@@ -118,15 +118,14 @@ public class LeitorDeJogos implements LeitorDAO{
     }
 
     private void inserirTurno() throws Exception {
-        System.out.println("tabela turno " + idCampeonato);
         turno = new Turno(idCampeonato, numeroTurno);
-        turnoDAO.incluir(turno);
+        if (turnoDAO.getRegistro(numeroTurno) == null)
+            turnoDAO.incluir(turno);
     }
 
-    private void getIdCampeonato() throws Exception {
+    private void gerarIdCampeonato() throws Exception {
         int ultimoCampeonato = campeonatoDAO.listar().size()-1;
         campeonato = campeonatoDAO.listar().get(ultimoCampeonato);
-        System.out.println(campeonato.getIdCampeonato());
         idCampeonato = campeonato.getIdCampeonato();
     }
      
@@ -135,12 +134,11 @@ public class LeitorDeJogos implements LeitorDAO{
         String nomeMandante = partes[0];      
         String gols = partes[1];              
         String nomeVisitante = partes[2];     
-                    
         String[] valores = partes[1].split("x"); 
         int golMandante = Integer.parseInt(valores[0]);
         int golVisitante = Integer.parseInt(valores[1]);
-        System.out.println("teste11");
-        idRodada = rodadaDAO.getRegistro(numeroTurno).getIdRodada();
+
+        idRodada = rodadaDAO.getRegistro(numeroRodada).getIdRodada();
         jogo = new Jogo(idRodada, idTurno, idCampeonato, golMandante, golVisitante, nomeMandante, nomeVisitante);
         return jogo;
     }

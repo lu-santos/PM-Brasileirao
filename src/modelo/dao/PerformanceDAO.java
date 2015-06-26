@@ -80,11 +80,12 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                Performance performance = registrarDados(registro);
-                performances.add(registrarDados(registro));
+                Performance performance = null;
+                performance = registrarDados(registro, performance);
+                performances.add(performance);
             }
         }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
+            System.out.println("Erro na listagem de performance: " + e.getMessage());
         }finally{
             conexao.fecharConexao();
         }
@@ -103,7 +104,7 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                performance = registrarDados(registro);
+                performance = registrarDados(registro, performance);
             }
         }catch(SQLException e){
             System.out.println("Erro na listagem " + e.getMessage());
@@ -113,8 +114,7 @@ public class PerformanceDAO implements BaseCrudDAO<Performance>{
         return performance; 
     }
     
-    private Performance registrarDados(ResultSet registro) throws SQLException {
-        Performance performance;
+    private Performance registrarDados(ResultSet registro, Performance performance) throws SQLException {
         int id_performance = registro.getInt("id_performance");
         int id_rodada = registro.getInt("id_rodada");
         int id_turno = registro.getInt("id_turno");

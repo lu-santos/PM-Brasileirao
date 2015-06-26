@@ -65,12 +65,12 @@ public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                Campeonato campeonato = new Campeonato();
+                Campeonato campeonato = null;
                 campeonato = registrarDados(registro, campeonato);
                 campeonatos.add(campeonato);
             }
         }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
+            System.out.println("Erro na listagem de campeonato: " + e.getMessage());
         }finally{
             conexao.fecharConexao();
         }
@@ -78,21 +78,21 @@ public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
     }
 
     @Override
-    public Campeonato getRegistro(int id) throws Exception {
+    public Campeonato getRegistro(int ano) throws Exception {
         PreparedStatement stmt = null;
         ResultSet registro = null;
         conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE ano = " + id; 
-        Campeonato campeonato = new Campeonato();
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE ano = " + ano; 
+        Campeonato campeonato = null;
         
         try{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                registrarDados(registro, campeonato);
+                campeonato = registrarDados(registro, campeonato);
             }
         }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
+            System.out.println("Erro ao pesquisar registro: " + e.getMessage());
         }finally{
             conexao.fecharConexao();
         }
@@ -100,6 +100,7 @@ public class CampeonatoDAO implements BaseCrudDAO<Campeonato>{
     }
     
     private Campeonato registrarDados(ResultSet registro, Campeonato campeonato) throws SQLException {
+        campeonato = new Campeonato();
         int id_campeonato = registro.getInt("id_campeonato");
         int ano = registro.getInt("ano");
         campeonato.setAno(ano);

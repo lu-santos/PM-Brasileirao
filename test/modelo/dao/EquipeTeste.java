@@ -24,6 +24,7 @@ public class EquipeTeste {
     private EquipeDAO equipeDAO = new EquipeDAO(conexaoDAO); 
     private EquipeEsperada resultadoEsperado = new EquipeEsperada();
     private List<Equipe> equipes;
+    private int idEquipe = 446;
     
     @Test
     public void teste() throws Exception {
@@ -39,11 +40,12 @@ public class EquipeTeste {
     }
     
     public void testarListarEquipe() throws Exception {
+        assertEquals(equipes.size(), 20);
         for(int i = 0; i < 20; i++) {
             assertEquals(equipes.get(i).getNome(), resultadoEsperado.getEquipeEsperada()[i]);
         }
     }
     public void testarGetRegistro() throws Exception {
-        assertEquals(equipeDAO.getRegistro(65).getNome(), resultadoEsperado.getEquipeEsperada()[1]);
+        assertEquals(equipeDAO.getRegistro(idEquipe).getNome(), resultadoEsperado.getEquipeEsperada()[0]);
     }
 }

@@ -74,7 +74,7 @@ public class JogoDAO implements BaseCrudDAO<Jogo>{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                Jogo jogo = new Jogo();
+                Jogo jogo = null;
                 jogo = registrarDados(registro, jogo);
                 jogos.add(jogo);
             }
@@ -87,21 +87,21 @@ public class JogoDAO implements BaseCrudDAO<Jogo>{
     }
 
     @Override
-    public Jogo getRegistro(int id) throws Exception {
+    public Jogo getRegistro(int idRodada) throws Exception {
         PreparedStatement stmt = null;
         ResultSet registro = null;
         
         conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_jogo = " + id; ; 
-        Jogo jogo = new Jogo();
+        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_rodada = " + idRodada; ; 
+        Jogo jogo = null;
         try{
             stmt = conectar.prepareStatement(query);
             registro = stmt.executeQuery();
             while(registro.next()){
-                registrarDados(registro, jogo);     
+                jogo = registrarDados(registro, jogo);     
             }
         }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
+            System.out.println("Erro ao pesquisar registro: " + e.getMessage());
         }finally{
             conexao.fecharConexao();
         }
@@ -109,6 +109,7 @@ public class JogoDAO implements BaseCrudDAO<Jogo>{
     }
     
     private Jogo registrarDados(ResultSet registro, Jogo jogo) throws SQLException {
+         jogo = new Jogo();
          int id_jogo = registro.getInt("id_jogo");
          int id_rodada = registro.getInt("id_rodada");
          int id_turno = registro.getInt("id_turno");
