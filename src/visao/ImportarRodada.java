@@ -7,8 +7,9 @@
 package visao;
 
 import controlador.RodadaEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,11 +22,11 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
      * Creates new form ImportarRodada2
      */
     
-    private DefaultListModel listaArquivos = new DefaultListModel();
+    private final DefaultListModel listaArquivos = new DefaultListModel();
     private RodadaEvent rodadaEvento;
     private String nomeArquivo;
     
-    private DefaultListModel listaArquivosImportados = new DefaultListModel();
+    private final DefaultListModel listaArquivosImportados = new DefaultListModel();
     private int numeroRodadaAtual;
     
     public ImportarRodada() {
@@ -145,7 +146,7 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarRodadaActionPerformed
-        int numeroRodada;
+ /*      int numeroRodada;
         if (listaArquivoRodadas.getSelectedIndex() > 35)     // arquivos txt não existentes
             JOptionPane.showMessageDialog(getContentPane(),"Não exite arquivo para o item selecionado!"); 
         
@@ -154,23 +155,33 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
         }
         
         if(listaArquivoRodadas.getSelectedIndex() == 0){
-            numeroRodada = listaArquivoRodadas.getSelectedIndex()+1;
-            nomeArquivo = "arquivos_de_leitura\\rodada" + numeroRodada + ".txt";
-            rodadaEvento = new RodadaEvent(nomeArquivo);
-            rodadaEvento.ImportarRodada();
-            rodadaEvento.adicionarRodadasImportadas(nomeArquivo);
-            numeroRodadaAtual = listaArquivoRodadas.getSelectedIndex();
-            JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");        
+            try {
+                numeroRodada = listaArquivoRodadas.getSelectedIndex()+1;
+                nomeArquivo = "arquivos_de_leitura\\rodada" + numeroRodada + ".txt";
+     //           rodadaEvento = new RodadaEvent(nomeArquivo);
+                rodadaEvento.ImportarRodada();
+                rodadaEvento.rodadasImportadasListModel(nomeArquivo);
+                numeroRodadaAtual = listaArquivoRodadas.getSelectedIndex();        
+                JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");
+            } catch (Exception ex) {
+                Logger.getLogger(ImportarRodada.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(getContentPane(),"Erro ao importar arquivo!");
+            }
         }
         
-        if(listaArquivoRodadas.getSelectedIndex() == (numeroRodadaAtual+1)){    // próxima rodada
+        if(listaArquivoRodadas.getSelectedIndex() == (numeroRodadaAtual+1)){    try {
+            // próxima rodada
             numeroRodada = listaArquivoRodadas.getSelectedIndex()+1;
             nomeArquivo = "arquivos_de_leitura\\rodada" + numeroRodada + ".txt";
-            rodadaEvento = new RodadaEvent(nomeArquivo);
+       //     rodadaEvento = new RodadaEvent(nomeArquivo);
             rodadaEvento.ImportarRodada();
-            rodadaEvento.adicionarRodadasImportadas(nomeArquivo);
+            rodadaEvento.rodadasImportadasListModel(nomeArquivo);
             numeroRodadaAtual = listaArquivoRodadas.getSelectedIndex();
             JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");
+            } catch (Exception ex) {
+                Logger.getLogger(ImportarRodada.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(getContentPane(),"Erro ao importar arquivo!");
+            }
             
         }
         
@@ -184,7 +195,7 @@ public class ImportarRodada extends javax.swing.JInternalFrame {
             }
             listaRodadasImportadas.setModel(listaArquivosImportados);
         }
-        
+   */     
     }//GEN-LAST:event_btnImportarRodadaActionPerformed
 
 

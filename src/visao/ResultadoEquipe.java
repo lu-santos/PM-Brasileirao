@@ -5,11 +5,11 @@
  */
 package visao;
 
-import modelo.entidade.Campeonato;
-import modelo.entidade.Equipe;
-//import Servicos.ServicoClassificacaoEquipe;
-//import Servicos.ServicoImportacaoResultado;
-import javax.swing.table.DefaultTableModel;
+import controlador.ResultadoEquipeEvent;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.entidade.Jogo;
 
 /**
  *
@@ -20,27 +20,23 @@ public class ResultadoEquipe extends javax.swing.JInternalFrame {
     /**
      * Creates new form ResultadoEquipe
      */
-    private DefaultTableModel modelo;
-//    private ServicoImportacaoResultado servicos;
-//    private ServicoClassificacaoEquipe classificacaoGeral;
-    private Campeonato c;
-    private Equipe equipe;
+    private ObjectTableModel modeloMandante;
+    private ObjectTableModel modeloVisitante;
+    private ResultadoEquipeEvent classificacao = new ResultadoEquipeEvent();
+    private Integer anoDoCampeonato;
 
     public ResultadoEquipe() {
         initComponents();
 
-        /*      servicos = new ServicoImportacaoResultado();
-         servicos.lerArquivoXMLExistente("campeonato2013.xml");
-         c = servicos.getCampeonato();
-         selecionarCampeonato.addItem(c.getAno());
-        
-         for(int i = 0; i < c.getListaEquipes().size(); i++)
-         selecionarEquipe.addItem(c.getListaEquipes().get(i).getNome());
-         */
-        String[] cabecalho = {"Mandante", "Placar", "Visitante", " ", "Mandante", "Placar", "Visitante"};
-        String[][] dados = {};
-        modelo = new DefaultTableModel(dados, cabecalho);
-        tabelaResultadoEquipe.setModel(modelo);
+        try {
+            FuncoesPadroes.addListModelCampeonato(classificacao, selecionarCampeonato);
+            System.out.println(selecionarCampeonato.getSelectedItem());
+            anoDoCampeonato = Integer.valueOf(String.valueOf(selecionarCampeonato.getSelectedItem()));
+            FuncoesPadroes.addListModelEquipe(classificacao, selecionarEquipe, anoDoCampeonato);
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!");    
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -55,7 +51,7 @@ public class ResultadoEquipe extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         selecionarCampeonato = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaResultadoEquipe = new javax.swing.JTable();
+        tabelaResultadoEquipeMandante = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         labelNumeroRodada = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
@@ -63,6 +59,8 @@ public class ResultadoEquipe extends javax.swing.JInternalFrame {
         selecionarEquipe = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelaResultadoEquipeVisitante = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -75,62 +73,62 @@ public class ResultadoEquipe extends javax.swing.JInternalFrame {
 
         selecionarCampeonato.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        tabelaResultadoEquipe.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        tabelaResultadoEquipe.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaResultadoEquipeMandante.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tabelaResultadoEquipeMandante.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "null", "null"
+                "Mandante", "Placar", "Visitante"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tabelaResultadoEquipe);
+        jScrollPane1.setViewportView(tabelaResultadoEquipeMandante);
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Rodada");
@@ -157,35 +155,94 @@ public class ResultadoEquipe extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("Jogos Visitantes");
 
+        tabelaResultadoEquipeVisitante.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tabelaResultadoEquipeVisitante.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Mandante", "Placar", "Visitante"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tabelaResultadoEquipeVisitante);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(selecionarCampeonato, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(selecionarCampeonato, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(selecionarEquipe, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(selecionarEquipe, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(labelNumeroRodada)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                        .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(labelNumeroRodada))
+                .addGap(172, 645, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(169, 169, 169)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
-                .addGap(172, 172, 172))
+                .addGap(193, 193, 193))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,67 +259,34 @@ public class ResultadoEquipe extends javax.swing.JInternalFrame {
                     .addComponent(selecionarEquipe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelNumeroRodada))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
- /*       servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        classificacaoGeral = new ServicoClassificacaoEquipe(c);
-
-        int indiceEquipe;
-        indiceEquipe = selecionarEquipe.getSelectedIndex();
-        equipe = c.getListaEquipes().get(indiceEquipe);
-
-        int ultimaRodada;
-        int turnoDaRodada;
-        if (c.getListaTurnos().get(1).getListaRodadas().isEmpty()) {
-            ultimaRodada = c.getListaTurnos().get(0).getListaRodadas().size() - 1;
-            turnoDaRodada = 0;
-        } else {
-            ultimaRodada = c.getListaTurnos().get(1).getListaRodadas().size() - 1;
-            int[] numeroRodadaTurno2 = {20, 21, 22, 23, 24, 25, 26, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
-            for (int i = 0; i < numeroRodadaTurno2.length; i++) {
-                if (ultimaRodada == i) {
-                    ultimaRodada = numeroRodadaTurno2[i];
-                }
-            }
-            turnoDaRodada = 1;
+        classificacao.setEquipe((String) selecionarEquipe.getSelectedItem());
+        anoDoCampeonato = Integer.valueOf((String) selecionarCampeonato.getSelectedItem());
+        try {
+            List<Jogo> jogosMandante = classificacao.getListaDeJogos(anoDoCampeonato, "Mandante");
+            labelNumeroRodada.setText(String.valueOf(classificacao.getNumeroDaUltimaRodada()));
+            modeloMandante = new ObjectTableModel(jogosMandante);
+            tabelaResultadoEquipeMandante.setModel(modeloMandante); 
+            List<Jogo> jogosVisitante = classificacao.getListaDeJogos(anoDoCampeonato, "Visitante");
+            modeloVisitante = new ObjectTableModel(jogosVisitante);
+            tabelaResultadoEquipeVisitante.setModel(modeloVisitante); 
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!"); 
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        labelNumeroRodada.setText(String.valueOf(ultimaRodada));
-
-        while (modelo.getRowCount() > 0) {
-            modelo.removeRow(0);
-        }
-        int total;
-        int totalJogos = equipe.getJogoMandante().size() + equipe.getJogoVisitante().size();
-        for (int i = 0; i < totalJogos; i++) {
-            String Mmandante = " ", Mplacar = " ", Mvisitante = " ", vazio = " ", Vmandante = " ", Vplacar = " ", Vvisitante = " ";
-            if (i < equipe.getJogoMandante().size() && equipe.getJogoMandante().get(i) != null) {
-                Mmandante = equipe.getJogoMandante().get(i).getMandante().getNome();
-                Mplacar = equipe.getJogoMandante().get(i).placarJogo();
-                Mvisitante = equipe.getJogoMandante().get(i).getVisitante().getNome();
-            }
-            if (i < equipe.getJogoVisitante().size() && equipe.getJogoVisitante().get(i) != null) {
-                Vmandante = equipe.getJogoVisitante().get(i).getMandante().getNome();
-                Vplacar = equipe.getJogoVisitante().get(i).placarJogo();
-                Vvisitante = equipe.getJogoVisitante().get(i).getVisitante().getNome();
-            }
-            Object dados[] = {Mmandante, Mplacar, Mvisitante, vazio, Vmandante, Vplacar, Vvisitante};
-            modelo.addRow(dados);
-            total = (equipe.getJogoMandante().size() + equipe.getJogoVisitante().size()) / 2;
-            if (i == total) {
-                break;
-            }
-        }*/
     }//GEN-LAST:event_btnOkActionPerformed
 
 
@@ -274,9 +298,11 @@ public class ResultadoEquipe extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelNumeroRodada;
     private javax.swing.JComboBox selecionarCampeonato;
     private javax.swing.JComboBox selecionarEquipe;
-    private javax.swing.JTable tabelaResultadoEquipe;
+    private javax.swing.JTable tabelaResultadoEquipeMandante;
+    private javax.swing.JTable tabelaResultadoEquipeVisitante;
     // End of variables declaration//GEN-END:variables
 }

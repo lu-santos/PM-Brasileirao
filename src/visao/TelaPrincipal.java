@@ -33,6 +33,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuArquivo = new javax.swing.JMenu();
         itemImportarRodada = new javax.swing.JMenuItem();
         itemImportarEquipe = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuClassificacao = new javax.swing.JMenu();
         itemClassificaçãoCamepeonato = new javax.swing.JMenuItem();
         itemClassificaçãoMandante = new javax.swing.JMenuItem();
@@ -84,6 +85,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menuArquivo.add(itemImportarEquipe);
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem1.setText("Importar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuArquivo.add(jMenuItem1);
 
         barraMenuPrincipal.add(menuArquivo);
 
@@ -177,40 +187,44 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemClassificaçãoMandanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoMandanteActionPerformed
-        AbrirJanela.abrirJanela(new ClassificacaoMandante(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ClassificacaoMandante(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoMandanteActionPerformed
 
     private void itemClassificaçãoTurno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoTurno1ActionPerformed
-        AbrirJanela.abrirJanela(new ClassificacaoTurno1(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ClassificacaoTurno1(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoTurno1ActionPerformed
 
     private void itemClassificaçãoTurno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoTurno2ActionPerformed
-        AbrirJanela.abrirJanela(new ClassificacaoTurno2(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ClassificacaoTurno2(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoTurno2ActionPerformed
 
     private void itemImportarEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarEquipeActionPerformed
-        AbrirJanela.abrirJanela(new ImportarEquipe(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ImportarEquipe(), painelTrabalho);
     }//GEN-LAST:event_itemImportarEquipeActionPerformed
 
     private void itemClassificaçãoCamepeonatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoCamepeonatoActionPerformed
-        AbrirJanela.abrirJanela(new ClassificacaoCampeonato(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ClassificacaoCampeonato(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoCamepeonatoActionPerformed
 
     private void itemClassificaçãoVisitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClassificaçãoVisitanteActionPerformed
-        AbrirJanela.abrirJanela(new ClassificacaoVisitante(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ClassificacaoVisitante(), painelTrabalho);
     }//GEN-LAST:event_itemClassificaçãoVisitanteActionPerformed
 
     private void itemResultadoRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemResultadoRodadaActionPerformed
-        AbrirJanela.abrirJanela(new ResultadoDaRodada(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ResultadoDaRodada(), painelTrabalho);
     }//GEN-LAST:event_itemResultadoRodadaActionPerformed
 
     private void itemResultadoEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemResultadoEquipeActionPerformed
-        AbrirJanela.abrirJanela(new ResultadoEquipe(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ResultadoEquipe(), painelTrabalho);
     }//GEN-LAST:event_itemResultadoEquipeActionPerformed
 
     private void itemImportarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemImportarRodadaActionPerformed
-        AbrirJanela.abrirJanela(new ImportarRodada(), painelTrabalho);
+        FuncoesPadroes.abrirJanela(new ImportarRodada(), painelTrabalho);
     }//GEN-LAST:event_itemImportarRodadaActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        FuncoesPadroes.abrirJanela(new Importar(), painelTrabalho);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,6 +272,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemImportarRodada;
     private javax.swing.JMenuItem itemResultadoEquipe;
     private javax.swing.JMenuItem itemResultadoRodada;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenu menuClassificacao;
     private javax.swing.JMenu menuResultado;

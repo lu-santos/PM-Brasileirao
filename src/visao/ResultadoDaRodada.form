@@ -37,15 +37,21 @@
                   <Component id="selecionarCampeonato" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnOk" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labelNumeroRodada" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <Component id="btnOKCamp" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
+              <Component id="btnVoltarRodada" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jLabel2" max="32767" attributes="0"/>
+                  <Component id="selecionarRodada" min="-2" pref="50" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnAvancarRodada" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnOk" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="tabelaCampeonatoRodada" alignment="0" pref="694" max="32767" attributes="0"/>
+          <Component id="tabelaCampeonatoRodada" alignment="0" pref="1004" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -60,10 +66,13 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="selecionarCampeonato" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnOk" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelNumeroRodada" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="selecionarRodada" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnVoltarRodada" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAvancarRodada" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnOKCamp" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="tabelaCampeonatoRodada" pref="282" max="32767" attributes="0"/>
+              <Component id="tabelaCampeonatoRodada" pref="273" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -154,13 +163,48 @@
         <Property name="text" type="java.lang.String" value="Rodada"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelNumeroRodada">
+    <Component class="javax.swing.JComboBox" name="selecionarRodada">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="______"/>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnVoltarRodada">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVoltarRodadaActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAvancarRodada">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAvancarRodadaActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnOKCamp">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="14" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="OK"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOKCampActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -6,12 +6,12 @@
 
 package visao;
 
-import modelo.entidade.Campeonato;
+import controlador.ClassificacaoEvent;
+import controlador.ClassificacaoVisitanteEvent;
 import modelo.entidade.Performance;
-//import Servicos.ServicoClassificacaoEquipe;
-//import Servicos.ServicoImportacaoResultado;
 import java.util.*;
-import javax.swing.table.DefaultTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,23 +23,18 @@ public class ClassificacaoVisitante extends javax.swing.JInternalFrame {
      * Creates new form ClassificacaoVisitante
      */
     
-    private DefaultTableModel modelo;
- //   private ServicoImportacaoResultado servicos;
-  //  private ServicoClassificacaoEquipe classificacaoVisitante;
-    private Campeonato c;
+    private ObjectTableModel modelo;
+    ClassificacaoEvent classificacao = new ClassificacaoVisitanteEvent();
     
     public ClassificacaoVisitante() {
         initComponents();
         
-   /*     servicos = new ServicoImportacaoResultado();
-        servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        selecionarCampeonato.addItem(c.getAno());
-     */   
-        String[] cabecalho = {"Posição" ,"Indicador", "Equipe", "PG", "JV", "V", "E", "D", "GP", "GC", "S", "Aproveitamento"};
-        String[][] dados = {};
-        modelo = new DefaultTableModel(dados, cabecalho);
-        tabelaClassificacaoVisitante.setModel(modelo);
+       try {
+            FuncoesPadroes.addListModelCampeonato(classificacao, selecionarCampeonato);
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!");    
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -81,34 +76,34 @@ public class ClassificacaoVisitante extends javax.swing.JInternalFrame {
         tabelaClassificacaoVisitante.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tabelaClassificacaoVisitante.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "null", "null", "null", "null", "null", "null", "null", "null", "null"
+                "Posição", "Indicador", "Equipe", "PG", "Jogos", "Vitoras", "Empates", "Derrotas", "Gol Pro", "Gol Contra", "Saldo", "%"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -162,61 +157,16 @@ public class ClassificacaoVisitante extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-    /*    servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        classificacaoVisitante = new ServicoClassificacaoEquipe(c);
-        List<PerformaceVisitante> p = classificacaoVisitante.obterClassificacaoVisitante();
-        
-        Comparator<PerformaceVisitante> ordemDecrescentePG = new Comparator<PerformaceVisitante>(){
-            public int compare(PerformaceVisitante p1, PerformaceVisitante p2){
-                return p1.compareTo(p2);
-            }
-        };
-        
-        Collections.sort(p, ordemDecrescentePG);
-        
-        for(int i = 0; i < 4 ; i++){
-            p.get(i).getEquipe().setIndicador("Libertadores");
-        }
-  
-        for(int i = 19; i >15 ; i--){
-            p.get(i).getEquipe().setIndicador("Rebaixado");
-        }
-        
-        int ultimaRodada;
-        int turnoDaRodada;
-        if(c.getListaTurnos().get(1).getListaRodadas().isEmpty()){
-            ultimaRodada = c.getListaTurnos().get(0).getListaRodadas().size()-1;
-            turnoDaRodada = 0;
-        }
-        else{
-            ultimaRodada = c.getListaTurnos().get(1).getListaRodadas().size()-1;
-            turnoDaRodada = 1;
-        }
-        
-        labelNumeroRodada.setText(String.valueOf(ultimaRodada));
-         
-        while(modelo.getRowCount()>0){
-            modelo.removeRow(0);
-        }
- 
-        int q = 1;
-        for(int i = 0; i < p.size() ; i++){    
-            int posicao = q++;
-            String indicador = p.get(i).getEquipe().getIndicador();
-            String equipe = p.get(i).getEquipe().getNome();
-            int pontosGanhos = p.get(i).getPontosGanhosVisitante();
-            int jogos = p.get(i).getJogosVisitante();
-            int vitoria = p.get(i).getVitoriasVisitante();
-            int empate = p.get(i).getEmpatesVisitante();
-            int derrota = p.get(i).getDerrotasVisitante();
-            int golsPro = p.get(i).getGolsProVisitante();
-            int golsContra = p.get(i).getGolsContraVisitante();
-            int saldo = p.get(i).getSaldoVisitante();
-            double aproveitamento = p.get(i).getAproveitamentoVisitante();
-            Object dados [] = {posicao, indicador, equipe, pontosGanhos, jogos, vitoria, empate, derrota, golsPro, golsContra, saldo, aproveitamento};
-            modelo.addRow(dados);
-        }*/
+        Integer anoDoCampeonato = Integer.valueOf(String.valueOf(selecionarCampeonato.getSelectedItem()));
+        try {
+            List<Performance> performances = classificacao.getListaDePerformance(anoDoCampeonato);
+            labelNumeroRodada.setText(String.valueOf(classificacao.getNumeroDaUltimaRodada()));
+            modelo = new ObjectTableModel(performances);
+            tabelaClassificacaoVisitante.setModel(modelo); 
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!"); 
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }//GEN-LAST:event_btnOkActionPerformed
 
 

@@ -17,26 +17,28 @@ public class Rodada {
     
     private int idRodada;
     private int idTurno;
-    private int idCampeonato;
     private int numeroRodada;
-    private List<Jogo> PartidasNaRodada = new ArrayList<>();
-    
-    public Rodada(int idTurno, int idCampeonato, int numeroRodada) {
-        this.idTurno = idTurno;
-        this.idCampeonato = idCampeonato;
-        this.numeroRodada = numeroRodada;
-    }
+    private List<Jogo> jogosDaRodada;
     
     public Rodada(){
         
     }
-
-    public List<Jogo> getPartidasNaRodada() {
-        return PartidasNaRodada;
+    
+    public Rodada(int idTurno, int numeroRodada) {
+        this.idTurno = idTurno;
+        this.numeroRodada = numeroRodada;
+    }
+    
+    public Rodada(int numeroRodada) {
+        this.numeroRodada = numeroRodada;
     }
 
-    public void setPartidasNaRodada(List<Jogo> PartidasNaRodada) {
-        this.PartidasNaRodada = PartidasNaRodada;
+    public List<Jogo> getJogosDaRodada() {
+        return jogosDaRodada;
+    }
+
+    public void setJogosDaRodada(List<Jogo> PartidasNaRodada) {
+        this.jogosDaRodada = new ArrayList<>(PartidasNaRodada);
     }
     
     public int getIdRodada() {
@@ -50,10 +52,6 @@ public class Rodada {
     public int getIdTurno() {
         return idTurno;
     }
-
-    public int getIdCampeonato() {
-        return idCampeonato;
-    }
     
     public int getNumeroRodada() {
         return numeroRodada;
@@ -63,10 +61,6 @@ public class Rodada {
         this.idTurno = idTurno;
     }
 
-    public void setIdCampeonato(int idCampeonato) {
-        this.idCampeonato = idCampeonato;
-    }
-        
     public void setNumeroRodada(int numeroRodada) {
         this.numeroRodada = numeroRodada;
     }

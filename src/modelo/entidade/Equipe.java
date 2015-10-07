@@ -6,6 +6,7 @@
 
 package modelo.entidade;
 
+
 /**
  *
  * @author Lucianna
@@ -50,6 +51,5 @@ public class Equipe {
     public void setIndicador(String indicador) {
         this.indicador = indicador;
     }
-    
-    
+        
 }

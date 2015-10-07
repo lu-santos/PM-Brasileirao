@@ -6,18 +6,12 @@
 
 package visao;
 
-import modelo.entidade.Campeonato;
-import modelo.entidade.Equipe;
+import controlador.ClassificacaoCampeonatoEvent;
+import controlador.ClassificacaoEvent;
 import modelo.entidade.Performance;
-//import controlador.ServicoClassificacaoEquipe;
-//import controlador.ServicoImportacaoResultado;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import javax.swing.table.DefaultTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,23 +23,17 @@ public class ClassificacaoCampeonato extends javax.swing.JInternalFrame {
      * Creates new form ClassificacaoCampeonato
      */
     
-    private DefaultTableModel modelo;
-//    private ServicoImportacaoResultado servicos;
-//    private ServicoClassificacaoEquipe classificacaoGeral;
-//    private Campeonato c;
+    private ObjectTableModel modelo;
+    ClassificacaoEvent classificacao = new ClassificacaoCampeonatoEvent();
     
     public ClassificacaoCampeonato() {
         initComponents();
-        
- /*       servicos = new ServicoImportacaoResultado();
-        servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        selecionarCampeonato.addItem(c.getAno());
-        */
-        String[] cabecalho = {"Posição" ,"Indicador", "Equipe", "PG", "J", "V", "E", "D", "GP", "GC", "S", "Aproveitamento"};
-        String[][] dados = {};
-        modelo = new DefaultTableModel(dados, cabecalho);
-        tabelaClassificacaoCampeonato.setModel(modelo); 
+        try {
+            FuncoesPadroes.addListModelCampeonato(classificacao, selecionarCampeonato);
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!");    
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -90,6 +78,8 @@ public class ClassificacaoCampeonato extends javax.swing.JInternalFrame {
             }
         });
 
+        jScrollPane1.setRequestFocusEnabled(false);
+
         tabelaClassificacaoCampeonato.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tabelaClassificacaoCampeonato.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -116,7 +106,7 @@ public class ClassificacaoCampeonato extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "null", "null", "null", "null", "null", "null", "null", "null"
+                "Posição", "Indicador", "Equipe", "Pontos Ganhos", "Jogos", "Vitorias", "Empates", "Derrotas", "Gol Pro", "Gol Contra", "Saldo", "Aproveitamento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -127,6 +117,9 @@ public class ClassificacaoCampeonato extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabelaClassificacaoCampeonato.setEnabled(false);
+        tabelaClassificacaoCampeonato.setFocusable(false);
+        tabelaClassificacaoCampeonato.setRowSelectionAllowed(false);
         jScrollPane1.setViewportView(tabelaClassificacaoCampeonato);
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -177,66 +170,16 @@ public class ClassificacaoCampeonato extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_selecionarCampeonatoActionPerformed
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-   /*     servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        classificacaoGeral = new ServicoClassificacaoEquipe(c);
-        List<Performace> p = classificacaoGeral.obterClassificacaoGeral();
-        
-        Comparator<Performace> ordemDecrescentePG = new Comparator<Performace>(){
-            public int compare(Performace p1, Performace p2){
-                return p1.compareTo(p2);
-            }
-        };
-        
-        Collections.sort(p, ordemDecrescentePG);
-        
-        for(int i = 0; i < 4 ; i++){
-            p.get(i).getEquipe().setIndicador("Libertadores");
-        }
-  
-        for(int i = 19; i >15 ; i--){
-            p.get(i).getEquipe().setIndicador("Rebaixado");
-        }
-         
-        int ultimaRodada;
-        int turnoDaRodada;
-        if(c.getListaTurnos().get(1).getListaRodadas().isEmpty()){
-            ultimaRodada = c.getListaTurnos().get(0).getListaRodadas().size()-1;
-            turnoDaRodada = 0;
-        }
-        else{
-            ultimaRodada = c.getListaTurnos().get(1).getListaRodadas().size()-1;
-            int[] numeroRodadaTurno2 = {20, 21, 22, 23, 24, 25, 26, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
-            for(int i = 0; i < numeroRodadaTurno2.length; i++)
-                if(ultimaRodada == i)
-                    ultimaRodada = numeroRodadaTurno2[i];
-            turnoDaRodada = 1;
-        }
-        
-        labelNumeroRodada.setText(String.valueOf(ultimaRodada));
-        
-        while(modelo.getRowCount()>0){
-            modelo.removeRow(0);
-        }
- 
-        int q = 1;
-        for(int i = 0; i < p.size() ; i++){    
-            int posicao = q++;
-            String indicador = p.get(i).getEquipe().getIndicador();
-            String equipe = p.get(i).getEquipe().getNome();
-            int pontosGanhos = p.get(i).getPontosGanhos();
-            int jogos = p.get(i).getJogos();
-            int vitoria = p.get(i).getVitorias();
-            int empate = p.get(i).getEmpates();
-            int derrota = p.get(i).getDerrotas();
-            int golsPro = p.get(i).getGolsPro();
-            int golsContra = p.get(i).getGolsContra();
-            int saldo = p.get(i).getSaldo();
-            double aproveitamento = p.get(i).getAproveitamento();
-            Object dados [] = {posicao, indicador, equipe, pontosGanhos, jogos, vitoria, empate, derrota, golsPro, golsContra, saldo, aproveitamento};
-            modelo.addRow(dados);
-        }
-     */           
+        Integer anoDoCampeonato = Integer.valueOf(String.valueOf(selecionarCampeonato.getSelectedItem()));
+        try {
+            List<Performance> performances = classificacao.getListaDePerformance(anoDoCampeonato);
+            labelNumeroRodada.setText(String.valueOf(classificacao.getNumeroDaUltimaRodada()));
+            modelo = new ObjectTableModel(performances);
+            tabelaClassificacaoCampeonato.setModel(modelo); 
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!"); 
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }     
     }//GEN-LAST:event_btnOkActionPerformed
 
 

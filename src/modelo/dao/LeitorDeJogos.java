@@ -5,131 +5,37 @@
  */
 package modelo.dao;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.entidade.Jogo;
 import modelo.entidade.Rodada;
-import modelo.entidade.Campeonato;
-import modelo.entidade.Turno;
 
 /**
  *
  * @author Amanda
  */
-public class LeitorDeJogos implements LeitorDAO{
-    private Rodada rodada;
-    private Turno turno;
-    private Campeonato campeonato;
+public class LeitorDeJogos extends LeitorDAO<Rodada, Jogo>{
     private Jogo jogo;
-    private JogoDAO jogoDAO;
-    private TurnoDAO turnoDAO;
-    private EquipeDAO equipeDAO;
-    private CampeonatoDAO campeonatoDAO;
-    private List<Jogo> listaDeJogos = new ArrayList<>();
-    private int idTurno, idRodada, idEquipeMandante, idEquipeVisitante, idCampeonato;
-    private int numeroTurno, numeroRodada, anoCampeonato;
-    private ConexaoDAO conexao = new ConexaoPostgre();
-    private RodadaDAO rodadaDAO;
-    private String nomeArquivo;
+    private int numeroRodada;
+    private final String nomeArquivo;
+    private Rodada rodada;
+    private final List<Jogo> jogos;
 
      public LeitorDeJogos(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
-        this.jogoDAO = new JogoDAO(conexao);
-        this.turnoDAO = new TurnoDAO(conexao);
-        this.equipeDAO = new EquipeDAO(conexao);
-        this.campeonatoDAO = new CampeonatoDAO(conexao);
-        this.rodadaDAO = new RodadaDAO(conexao);
+        this.jogos = new ArrayList<>();
+        lerArquivo(nomeArquivo);
     }
    
     @Override
-    public void lerArquivo() {
-        File arquivoTXT = new File(nomeArquivo);
-        if (arquivoTXT.exists())
-            leitura();
-    }
-    
-    private void leitura() {
-        BufferedReader ler = null;
-        try{
-            try {
-                ler = new BufferedReader(new FileReader(nomeArquivo));
-                String linha = ler.readLine();
-                String[] primeiraLinha = linha.split(" ");     
-                incluirRodada(primeiraLinha[1]);
-                if (jogoDAO.getRegistro(idRodada) == null) {
-                    while (ler.ready()) {
-                        linha = ler.readLine();
-                        jogo = processarLinhaJogo(linha);
-                        jogoDAO.incluir(jogo);
-                    }
-                }
-                rodada.setPartidasNaRodada(listaDeJogos);
-            }finally {
-                if (ler != null)
-                    ler.close();
-            }
-        }catch (Exception e) {
-            System.out.println(e.toString());
-        }
-    }
-        
-     public void incluirRodada(String linha) throws Exception {
-        numeroRodada = Integer.parseInt(linha);
-        gerarIdCampeonato();
-        if (numeroRodada == 1) {
-            numeroTurno = 1;
-            gerarRodadaEmTurnoNovo(numeroRodada);
-        }
-        else if (numeroRodada < 20) {
-            numeroTurno = 1;
-            gerarRodada(numeroRodada);
-        }
-        
-        if (numeroRodada == 20 ) {
-            numeroTurno = 2;
-            gerarRodadaEmTurnoNovo(numeroRodada);
-        }
-        else if (numeroRodada > 20) {
-            numeroTurno = 2;
-            gerarRodada(numeroRodada);
-        }
-        if (rodadaDAO.getRegistro(numeroRodada) == null)
-            rodadaDAO.incluir(rodada);  
-    }
+    protected void criarEntidade(String linha) {
+        String[] primeiraLinha = linha.split(" ");
+        numeroRodada = Integer.parseInt(primeiraLinha[1]);
+        rodada = new Rodada(numeroRodada);
+    } 
 
-    private void gerarRodada(int numeroRodada) throws Exception {
-        idTurno = getIdTurno();
-        rodada = new Rodada(idTurno, idCampeonato, numeroRodada);
-    }
-
-    private void gerarRodadaEmTurnoNovo(int numeroRodada) throws Exception {
-        inserirTurno();
-        gerarRodada(numeroRodada);
-    }
-
-    private int getIdTurno() throws Exception {
-        turno = turnoDAO.getRegistro(numeroTurno);
-        return turno.getIdTurno();
-    }
-
-    private void inserirTurno() throws Exception {
-        turno = new Turno(idCampeonato, numeroTurno);
-        if (turnoDAO.getRegistro(numeroTurno) == null)
-            turnoDAO.incluir(turno);
-    }
-
-    private void gerarIdCampeonato() throws Exception {
-        int ultimoCampeonato = campeonatoDAO.listar().size()-1;
-        campeonato = campeonatoDAO.listar().get(ultimoCampeonato);
-        idCampeonato = campeonato.getIdCampeonato();
-    }
-     
-    public Jogo processarLinhaJogo(String linha) throws Exception{
+    @Override
+    protected void criarListaDeEntidade(String linha) {
         String[] partes = linha.split(" ");
         String nomeMandante = partes[0];      
         String gols = partes[1];              
@@ -137,9 +43,17 @@ public class LeitorDeJogos implements LeitorDAO{
         String[] valores = partes[1].split("x"); 
         int golMandante = Integer.parseInt(valores[0]);
         int golVisitante = Integer.parseInt(valores[1]);
+        jogo = new Jogo(golMandante, golVisitante, nomeMandante, nomeVisitante);
+        jogos.add(jogo);
+    }
 
-        idRodada = rodadaDAO.getRegistro(numeroRodada).getIdRodada();
-        jogo = new Jogo(idRodada, idTurno, idCampeonato, golMandante, golVisitante, nomeMandante, nomeVisitante);
-        return jogo;
+    @Override
+    public Rodada getEntidade() {
+        return rodada;
+    }
+
+    @Override
+    public List<Jogo> getListaDeEntidade() {
+        return jogos;
     }
 }

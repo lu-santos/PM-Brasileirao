@@ -6,6 +6,9 @@
 
 package modelo.entidade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Lucianna
@@ -15,13 +18,18 @@ public class Turno {
     private int idTurno;
     private int idCampeonato;
     private int numeroTurno;
+    private List<Rodada> rodadasDoTurno;
+    
+    public Turno(){
+    }
 
     public Turno(int idCampeonato, int numeroTurno) {
         this.idCampeonato = idCampeonato;
         this.numeroTurno = numeroTurno;
     }
     
-    public Turno(){
+    public Turno(int numeroTurno) {
+        this.numeroTurno = numeroTurno;
     }
     
     public int getIdTurno() {
@@ -46,5 +54,13 @@ public class Turno {
 
     public void setIdCampeonato(int idCampeonato) {
         this.idCampeonato = idCampeonato;
+    }
+
+    public List<Rodada> getRodadasDoTurno() {
+        return rodadasDoTurno;
+    }
+
+    public void setRodadasDoTurno(List<Rodada> rodadasDoTurno) {
+        this.rodadasDoTurno = new ArrayList<>(rodadasDoTurno);
     }
 }

@@ -5,109 +5,70 @@
  */
 package modelo.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.entidade.Turno;
 
 /**
  *
  * @author Amanda
  */
-public class TurnoDAO implements BaseCrudDAO<Turno>{
+public class TurnoDAO extends BaseCrudDAO<Turno>{
     private final String nomeDaTabela = "tabela_turno";
-    private String query;
     private static ConexaoDAO conexao;
-    private Connection conectar;
     
     public TurnoDAO(ConexaoDAO conexao) {
-        this.conexao = conexao;
-    }
-    
-    @Override
-    public void incluir(Turno t) throws Exception {
-        query = "INSERT INTO " + nomeDaTabela + "(id_campeonato, numero_turno) "
-                + "VALUES(?, ?);";
-        conectar = conexao.abrirConexao();
-        PreparedStatement pst = conectar.prepareStatement(query);
-        pst.setInt(1, t.getIdCampeonato());
-        pst.setInt(2, t.getNumeroTurno());
-        pst.executeUpdate();
-        conexao.fecharConexao();
+        super(conexao);
     }
 
     @Override
-    public void atualizar(Turno t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeInclusao() {
+        return "INSERT INTO " + nomeDaTabela + "(id_campeonato, numero_turno) " + "VALUES(?, ?);";
     }
 
     @Override
-    public Turno visualizar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeListar() {
+        return "SELECT * FROM " + nomeDaTabela;
     }
 
     @Override
-    public void excluir(Turno t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeRegistro() {
+        return "SELECT * FROM " + nomeDaTabela + " WHERE id_campeonato = ";
     }
 
     @Override
-    public List<Turno> listar() throws Exception {
-        PreparedStatement stmt = null;
-        ResultSet registro = null;
-        conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela; 
-        List<Turno> turnos = new ArrayList<>();
-        
-        try{
-            stmt = conectar.prepareStatement(query);
-            registro = stmt.executeQuery();
-            while(registro.next()){
-                Turno turno = null;
-                turno = registrarDados(registro, turno);
-                turnos.add(turno);
-            }
-        }catch(SQLException e){
-            System.out.println("Erro na listagem turno: " + e.getMessage());
-        }finally{
-            conexao.fecharConexao();
+    public Turno getEntidade(ResultSet registro) {
+        Turno turno;
+        try {
+            turno = new Turno();
+            int id_turno = registro.getInt("id_turno");
+            int id_campeonato = registro.getInt("id_campeonato");
+            int numero_turno = registro.getInt("numero_turno");
+            turno.setIdTurno(id_turno);
+            turno.setIdCampeonato(id_campeonato);
+            turno.setNumeroTurno(numero_turno);
+            return turno;
+        } catch (SQLException ex) {
+            Logger.getLogger(TurnoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return turnos;
+        return null;
     }
 
     @Override
-    public Turno getRegistro(int numeroTurno) throws Exception {
-        PreparedStatement stmt = null;
-        ResultSet registro = null;
-        
-        conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE numero_turno = " + numeroTurno; 
-        Turno turno = null;
-        try{
-            stmt = conectar.prepareStatement(query);
-            registro = stmt.executeQuery();
-            while(registro.next()){
-                turno = registrarDados(registro, turno);
-            }
-        }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
-        }finally{
-            conexao.fecharConexao();
+    public void incluirDadosNoBanco(PreparedStatement pst, Turno entidade) {
+        try {
+            pst.setInt(1, entidade.getIdCampeonato());
+            pst.setInt(2, entidade.getNumeroTurno());
+        } catch (SQLException ex) {
+            Logger.getLogger(TurnoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return turno; 
     }
-    
-    private Turno registrarDados(ResultSet registro, Turno turno) throws SQLException {
-        turno = new Turno();
-        int id_turno = registro.getInt("id_turno");
-        int id_campeonato = registro.getInt("id_campeonato");
-        int numero_turno = registro.getInt("numero_turno");
-        turno.setIdTurno(id_turno);
-        turno.setIdCampeonato(id_campeonato);
-        turno.setNumeroTurno(numero_turno);
-        return turno;
-    }   
+
+    @Override
+    public String getQueryDeExiste(Turno turno) {
+        return "SELECT DISTINCT * FROM " + nomeDaTabela + " WHERE id_campeonato = " + turno.getIdCampeonato() + " AND numero_turno = " + turno.getNumeroTurno();
+    }
 }

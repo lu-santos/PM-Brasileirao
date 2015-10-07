@@ -6,6 +6,8 @@
 
 package modelo.entidade;
 
+import visao.ColunaTabela;
+
 /**
  *
  * @author Lucianna
@@ -13,8 +15,6 @@ package modelo.entidade;
 public class Jogo {
     private int idJogo;
     private int idRodada;
-    private int idTurno;
-    private int idCampeonato;
     private String equipeMandante;
     private String equipeVisitante;
     private int golMandante;
@@ -24,16 +24,22 @@ public class Jogo {
         
     }
 
-    public Jogo(int idRodada, int idTurno, int idCampeonato, int idEquipeMandante, int golVisitante,String equipeMandante, String equipeVisitante) {
+    public Jogo(int idRodada, int golMandante, int golVisitante, String equipeMandante, String equipeVisitante) {
         this.idRodada = idRodada;
-        this.idTurno = idTurno;
-        this.idCampeonato = idCampeonato;
+        this.golMandante = golMandante;
+        this.golVisitante = golVisitante;
+        this.equipeMandante = equipeMandante;
+        this.equipeVisitante = equipeVisitante;
+    }
+    
+    public Jogo(int golMandante, int golVisitante, String equipeMandante, String equipeVisitante) {
         this.golMandante = golMandante;
         this.golVisitante = golVisitante;
         this.equipeMandante = equipeMandante;
         this.equipeVisitante = equipeVisitante;
     }
 
+    @ColunaTabela(nome="Mandante", indice=0)
     public String getEquipeMandante() {
         return equipeMandante;
     }
@@ -42,6 +48,7 @@ public class Jogo {
         this.equipeMandante = equipeMandante;
     }
 
+    @ColunaTabela(nome="Visitante", indice=2)
     public String getEquipeVisitante() {
         return equipeVisitante;
     }
@@ -66,22 +73,6 @@ public class Jogo {
         this.idRodada = idRodada;
     }
 
-    public int getIdTurno() {
-        return idTurno;
-    }
-
-    public void setIdTurno(int idTurno) {
-        this.idTurno = idTurno;
-    }
-
-    public int getIdCampeonato() {
-        return idCampeonato;
-    }
-
-    public void setIdCampeonato(int idCampeonato) {
-        this.idCampeonato = idCampeonato;
-    }
-
     public int getGolMandante() {
         return golMandante;
     }
@@ -96,5 +87,10 @@ public class Jogo {
 
     public void setGolVisitante(int golVisitante) {
         this.golVisitante = golVisitante;
+    }
+    
+    @ColunaTabela(nome="Placar", indice=1)
+    public String getPlacar() {
+        return golMandante + "x" + golVisitante;
     }
 }

@@ -6,12 +6,12 @@
 
 package visao;
 
-import modelo.entidade.Campeonato;
+import controlador.ClassificacaoEvent;
+import controlador.ClassificacaoTurnoEvent;
 import modelo.entidade.Performance;
-//import Servicos.ServicoClassificacaoEquipe;
-//import Servicos.ServicoImportacaoResultado;
 import java.util.*;
-import javax.swing.table.DefaultTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,23 +23,19 @@ public class ClassificacaoTurno2 extends javax.swing.JInternalFrame {
      * Creates new form ClassificacaoTurno2
      */
     
-    private DefaultTableModel modelo;
-//    private ServicoImportacaoResultado servicos;
- //   private ServicoClassificacaoEquipe classificacaoTurno2;
-    private Campeonato c;
+    private ObjectTableModel modelo;
+    private final String numeroDoTurno = "2";
+    private ClassificacaoEvent classificacao = new ClassificacaoTurnoEvent(numeroDoTurno);
    
     public ClassificacaoTurno2() {
         initComponents();
         
- /*       servicos = new ServicoImportacaoResultado();
-        servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        selecionarCampeonato.addItem(c.getAno());
-  */      
-        String[] cabecalho = {"Posição", "Indicador", "Equipe", "PG", "J", "V", "E", "D", "GP", "GC", "S", "Aproveitamento"};
-        String[][] dados = {};
-        modelo = new DefaultTableModel(dados, cabecalho);
-        tabelaClassificacaoTurno2.setModel(modelo);
+        try {
+            FuncoesPadroes.addListModelCampeonato(classificacao, selecionarCampeonato);
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!");    
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -161,62 +157,16 @@ public class ClassificacaoTurno2 extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-   /*     servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        classificacaoTurno2 = new ServicoClassificacaoEquipe(c);
-        List<Performace> p = classificacaoTurno2.obterClassificacaoTurno(1);
-        
-        if(p.isEmpty() == false){
-            Comparator<Performace> ordemDecrescentePG = new Comparator<Performace>(){
-                public int compare(Performace p1, Performace p2){
-                    return p1.compareTo(p2);
-                }
-            };
-
-            Collections.sort(p, ordemDecrescentePG);
-
-            for(int i = 0; i < 4 ; i++){
-                p.get(i).getEquipe().setIndicador("Libertadores");
-            }
-
-            for(int i = 19; i >15 ; i--){
-                p.get(i).getEquipe().setIndicador("Rebaixado");
-            }
-            
-            int ultimaRodada;
-            int turnoDaRodada;
-            if(c.getListaTurnos().get(1).getListaRodadas().isEmpty()){
-                ultimaRodada = c.getListaTurnos().get(0).getListaRodadas().size()-1;
-                turnoDaRodada = 0;
-            }
-            else{
-                ultimaRodada = c.getListaTurnos().get(1).getListaRodadas().size()-1;
-                turnoDaRodada = 1;
-            }
-
-            labelNumeroRodada.setText(String.valueOf(ultimaRodada));
-
-            while(modelo.getRowCount()>0){
-                modelo.removeRow(0);
-            }
-            int q = 1;
-            for(int i = 0; i < p.size() ; i++){    
-                int posicao = q++;
-                String indicador = p.get(i).getEquipe().getIndicador();
-                String equipe = p.get(i).getEquipe().getNome();
-                int pontosGanhos = p.get(i).getPontosGanhos();
-                int jogos = p.get(i).getJogos();
-                int vitoria = p.get(i).getVitorias();
-                int empate = p.get(i).getEmpates();
-                int derrota = p.get(i).getDerrotas();
-                int golsPro = p.get(i).getGolsPro();
-                int golsContra = p.get(i).getGolsContra();
-                int saldo = p.get(i).getSaldo();
-                double aproveitamento = p.get(i).getAproveitamento();
-                Object dados [] = {posicao, indicador, equipe, pontosGanhos, jogos, vitoria, empate, derrota, golsPro, golsContra, saldo, aproveitamento};
-                modelo.addRow(dados);
-            }
-        }*/
+       Integer anoDoCampeonato = Integer.valueOf(String.valueOf(selecionarCampeonato.getSelectedItem()));
+        try {
+            List<Performance> performances = classificacao.getListaDePerformance(anoDoCampeonato);
+            labelNumeroRodada.setText(String.valueOf(classificacao.getNumeroDaUltimaRodada()));
+            modelo = new ObjectTableModel(performances);
+            tabelaClassificacaoTurno2.setModel(modelo); 
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!"); 
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnOkActionPerformed
 
 

@@ -35,8 +35,8 @@ public class RodadaTeste {
     }
     
     public void testarImportarRodada() {
-        rodadaEvento = new RodadaEvent(caminhoDoArquivo);
-        rodadaEvento.ImportarRodada();
+  //      rodadaEvento = new RodadaEvent(caminhoDoArquivo);
+    //    rodadaEvento.ImportarRodada();
     }
     
     public void testarListarRodada() throws Exception {

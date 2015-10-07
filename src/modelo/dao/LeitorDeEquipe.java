@@ -6,14 +6,8 @@
 
 package modelo.dao;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelo.entidade.Campeonato;
 import modelo.entidade.Equipe;
 
@@ -21,60 +15,45 @@ import modelo.entidade.Equipe;
  *
  * @author Lucianna
  */
-public class LeitorDeEquipe implements LeitorDAO{
-    private EquipeDAO equipeDAO;
-    private CampeonatoDAO campeonatoDAO;
-    private String nomeArquivo;
-    private ConexaoDAO conexao = new ConexaoPostgre();
+public class LeitorDeEquipe extends LeitorDAO<Campeonato, Equipe>{
+    private final String nomeArquivo;
     private int anoCampeonato;
+    private Campeonato campeonato;
+    private final List<Equipe> equipes;
     
     public LeitorDeEquipe(String nomeArquivo) {
         this.nomeArquivo = nomeArquivo;
-        this.equipeDAO = new EquipeDAO(conexao);
-        this.campeonatoDAO = new CampeonatoDAO(conexao);
+        this.equipes = new ArrayList<>();
+        lerArquivo(nomeArquivo);
     }
     
     @Override
-    public void lerArquivo() {
-        File arquivoTXT = new File(nomeArquivo);
-        if (arquivoTXT.exists()) {
-            leitura();
-        }
+    protected void criarEntidade(String linha) {
+        anoCampeonato = Integer.parseInt(linha);
+        campeonato = new Campeonato(anoCampeonato);
     }
     
-    private void leitura() {
-        BufferedReader ler = null;
-        int i = 0;
-        try{
-            try{
-                ler = new BufferedReader(new FileReader(nomeArquivo));
-                String linha = ler.readLine();
-                anoCampeonato = Integer.parseInt(linha);
-                incluirCampeonato(linha);
-                while(ler.ready()){
-                    linha = ler.readLine();
-                    Equipe equipe = new Equipe(linha);
-                    if(i < 20)
-                        if (equipeDAO.listar().size() < 20) {
-                            equipeDAO.incluir(equipe);
-                        }
-                    i++;
-                }
-            }
-            catch (Exception ex) {
-                Logger.getLogger(LeitorDeEquipe.class.getName()).log(Level.SEVERE, null, ex);
-            } finally{
-                if(ler != null)
-                    ler.close();
-            }
-        }catch(IOException e){
-            System.out.println(e.getMessage());
+    @Override
+    protected void criarListaDeEntidade(String linha) {
+        Equipe equipe;
+        if (linha.indexOf(" ") != -1) {
+            String[] partes = linha.split(" ");
+            equipe = new Equipe(partes[0]);
+            equipe.setIndicador(partes[1]);
         }
+        else {
+            equipe = new Equipe(linha);
+        }
+        equipes.add(equipe);
+    }
+            
+    @Override
+    public Campeonato getEntidade() {
+        return campeonato;
     }
     
-    public void incluirCampeonato(String linha) throws Exception {
-        Campeonato campeonato = new Campeonato(anoCampeonato);
-        if (campeonatoDAO.getRegistro(anoCampeonato) == null)
-            campeonatoDAO.incluir(campeonato);
+    @Override
+    public List<Equipe> getListaDeEntidade() {
+        return equipes;
     }
 }

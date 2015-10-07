@@ -9,8 +9,11 @@ package modelo.dao;
 import controlador.EquipeEvent;
 import modelo.entidade.Equipe;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import resultadoEsperado.EquipeEsperada;
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -28,15 +31,20 @@ public class EquipeTeste {
     
     @Test
     public void teste() throws Exception {
-        equipes = equipeDAO.listar();
         testarImportarEquipe();
+        equipes = equipeDAO.listar();
         testarListarEquipe();
         testarGetRegistro();
     }
     
     public void testarImportarEquipe() {
-        equipeEvento = new EquipeEvent(caminhoDoArquivo);
-        equipeEvento.ImportarEquipe();
+        try {
+            equipeEvento = new EquipeEvent(caminhoDoArquivo);
+            equipeEvento.ImportarEquipe();
+        } catch (Exception ex) {
+            Logger.getLogger(EquipeTeste.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
     
     public void testarListarEquipe() throws Exception {

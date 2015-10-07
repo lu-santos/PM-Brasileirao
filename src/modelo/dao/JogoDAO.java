@@ -5,128 +5,80 @@
  */
 package modelo.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.entidade.Jogo;
-import modelo.entidade.Equipe;
 
 /**
  *
  * @author Amanda
  */
-public class JogoDAO implements BaseCrudDAO<Jogo>{
+public class JogoDAO extends BaseCrudDAO<Jogo>{
     private final String nomeDaTabela = "tabela_jogo";
-    private String query;
     private static ConexaoDAO conexao;
-    private Connection conectar;
     
     public JogoDAO(ConexaoDAO conexao) {
-        this.conexao = conexao;
-        System.out.println("teste12");
-    }
-    
-    @Override
-    public void incluir(Jogo t) throws Exception {
-        query = "INSERT INTO " + nomeDaTabela + "(id_rodada, id_turno, id_campeonato, gol_mandante, gol_visitante, nome_mandante, nome_visitante) "
-                + "VALUES(?, ?, ?, ?, ?, ?, ?);";
-        conectar = conexao.abrirConexao();
-        PreparedStatement pst = conectar.prepareStatement(query);
-        pst.setInt(1, t.getIdRodada());
-        pst.setInt(2, t.getIdTurno());
-        pst.setInt(3, t.getIdCampeonato());
-        pst.setInt(4, t.getGolMandante());
-        pst.setInt(5, t.getGolVisitante());
-        pst.setString(6, t.getEquipeMandante());
-        pst.setString(7, t.getEquipeVisitante());
-        pst.executeUpdate();
-        conexao.fecharConexao();
-        System.out.println("teste13");
+        super(conexao);
     }
 
     @Override
-    public void atualizar(Jogo t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeInclusao() {
+        return "INSERT INTO " + nomeDaTabela + "(id_rodada, gol_mandante, gol_visitante, nome_mandante, nome_visitante) "
+                + "VALUES(?, ?, ?, ?, ?);";
     }
 
     @Override
-    public Jogo visualizar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeListar() {
+        return "SELECT * FROM " + nomeDaTabela;
     }
 
     @Override
-    public void excluir(Jogo t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeRegistro() {
+        return "SELECT * FROM " + nomeDaTabela + " WHERE id_rodada = ";
     }
 
     @Override
-    public List<Jogo> listar() throws Exception {
-        PreparedStatement stmt = null;
-        ResultSet registro = null;
-        
-        conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela; 
-        List<Jogo> jogos = new ArrayList<>();
-        try{
-            stmt = conectar.prepareStatement(query);
-            registro = stmt.executeQuery();
-            while(registro.next()){
-                Jogo jogo = null;
-                jogo = registrarDados(registro, jogo);
-                jogos.add(jogo);
-            }
-        }catch(SQLException e){
-            System.out.println("Erro na listagem " + e.getMessage());
-        }finally{
-            conexao.fecharConexao();
+    public Jogo getEntidade(ResultSet registro) {
+        Jogo jogo;
+        try {
+            jogo = new Jogo();
+            int id_jogo = registro.getInt("id_jogo");
+            int id_rodada = registro.getInt("id_rodada");
+            int gol_mandante = registro.getInt("gol_mandante");
+            int gol_visitante = registro.getInt("gol_visitante");
+            String nome_mandante = registro.getString("nome_mandante");
+            String nome_visitante = registro.getString("nome_visitante");
+            jogo.setIdJogo(id_jogo);
+            jogo.setIdRodada(id_rodada);
+            jogo.setGolMandante(gol_mandante);
+            jogo.setGolVisitante(gol_visitante);
+            jogo.setEquipeMandante(nome_mandante.trim());
+            jogo.setEquipeVisitante(nome_visitante.trim());
+            return jogo;
+        } catch (SQLException ex) {
+            Logger.getLogger(JogoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return jogos;
+        return null;
     }
 
     @Override
-    public Jogo getRegistro(int idRodada) throws Exception {
-        PreparedStatement stmt = null;
-        ResultSet registro = null;
-        
-        conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_rodada = " + idRodada; ; 
-        Jogo jogo = null;
-        try{
-            stmt = conectar.prepareStatement(query);
-            registro = stmt.executeQuery();
-            while(registro.next()){
-                jogo = registrarDados(registro, jogo);     
-            }
-        }catch(SQLException e){
-            System.out.println("Erro ao pesquisar registro: " + e.getMessage());
-        }finally{
-            conexao.fecharConexao();
+    public void incluirDadosNoBanco(PreparedStatement pst, Jogo entidade) {
+        try {
+            pst.setInt(1, entidade.getIdRodada());
+            pst.setInt(2, entidade.getGolMandante());
+            pst.setInt(3, entidade.getGolVisitante());
+            pst.setString(4, entidade.getEquipeMandante());
+            pst.setString(5, entidade.getEquipeVisitante());
+        } catch (SQLException ex) {
+            Logger.getLogger(JogoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return jogo;
-    }
-    
-    private Jogo registrarDados(ResultSet registro, Jogo jogo) throws SQLException {
-         jogo = new Jogo();
-         int id_jogo = registro.getInt("id_jogo");
-         int id_rodada = registro.getInt("id_rodada");
-         int id_turno = registro.getInt("id_turno");
-         int id_campeonato = registro.getInt("id_campeonato");
-         int gol_mandante = registro.getInt("gol_mandante");
-         int gol_visitante = registro.getInt("gol_visitante");
-         String nome_mandante = registro.getString("nome_mandante");
-         String nome_visitante = registro.getString("nome_visitante");
-         jogo.setIdJogo(id_jogo);
-         jogo.setIdRodada(id_rodada);
-         jogo.setIdTurno(id_turno);
-         jogo.setIdCampeonato(id_campeonato);
-         jogo.setGolMandante(gol_mandante);
-         jogo.setGolVisitante(gol_visitante);
-         jogo.setEquipeMandante(nome_mandante.trim());
-         jogo.setEquipeVisitante(nome_visitante.trim()); 
-         return jogo;
     }
 
+    @Override
+    public String getQueryDeExiste(Jogo jogo) {
+        return "SELECT * FROM " + nomeDaTabela + " WHERE id_rodada = " + jogo.getIdRodada() + " AND gol_mandante = " + jogo.getGolMandante() + " AND gol_visitante = " + jogo.getGolVisitante() + " AND nome_mandante = '" + jogo.getEquipeMandante() + "' AND nome_visitante = '" + jogo.getEquipeVisitante() + "'";
+    }
 }

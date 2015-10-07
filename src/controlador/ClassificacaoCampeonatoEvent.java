@@ -4,15 +4,16 @@
  * and open the template in the editor.
  */
 
-package visao;
+package controlador;
 
 /**
  *
  * @author Lucianna
  */
-public class AbrirJanela {
-    public static void abrirJanela(javax.swing.JInternalFrame proximaJanela, javax.swing.JDesktopPane janelaAtual) {
-	janelaAtual.add(proximaJanela);
-	proximaJanela.setVisible(true);
+public class ClassificacaoCampeonatoEvent extends ClassificacaoEvent {
+    
+    public ClassificacaoCampeonatoEvent() {
+        super();
     }
+    
 }

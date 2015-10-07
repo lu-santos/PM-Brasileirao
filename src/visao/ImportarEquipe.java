@@ -6,14 +6,11 @@
 
 package visao;
 
-//import Servicos.ServicoImportacaoEquipe;
 import controlador.EquipeEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import modelo.dao.ConexaoDAO;
-import modelo.dao.ConexaoPostgre;
-import modelo.dao.LeitorDAO;
-import modelo.dao.LeitorDeEquipe;
 
 /**
  *
@@ -25,10 +22,10 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
      * Creates new form ImportarEquipe
      */
     
-    private DefaultListModel listaArquivos = new DefaultListModel();
+    private final DefaultListModel listaArquivos = new DefaultListModel();
     private EquipeEvent equipeEvento;
-    private String nomeArquivo = "equipes.txt";
-    private String caminhoDoArquivo = "arquivos_de_leitura\\equipes.txt";
+    private final String nomeArquivo = "equipes.txt";
+    private final String caminhoDoArquivo = "arquivos_de_leitura\\equipes.txt";
     
     public ImportarEquipe() {
         initComponents();
@@ -106,9 +103,14 @@ public class ImportarEquipe extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
-        equipeEvento = new EquipeEvent(caminhoDoArquivo);
-        equipeEvento.ImportarEquipe();
-        JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso");  
+        try {
+            equipeEvento = new EquipeEvent(caminhoDoArquivo);
+            equipeEvento.ImportarEquipe();  
+            JOptionPane.showMessageDialog(getContentPane(),"Arquivo importado com sucesso!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(getContentPane(),"Erro ao importar arquivo!");
+            Logger.getLogger(ImportarEquipe.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnImportarActionPerformed
 
 

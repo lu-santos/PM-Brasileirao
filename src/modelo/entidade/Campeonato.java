@@ -6,6 +6,9 @@
 
 package modelo.entidade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Lucianna
@@ -14,6 +17,8 @@ public class Campeonato {
     
     private int idCampeonato;
     private int ano;
+    private List<Turno> turnos;
+    private List<Equipe> equipes;
     
     public Campeonato(int ano) {
         this.ano = ano;
@@ -37,4 +42,21 @@ public class Campeonato {
     public void setAno(int ano) {
         this.ano = ano;
     }
+
+    public List<Turno> getTurnos() {
+        return turnos;
+    }
+
+    public void setTurnos(List<Turno> turnos) {
+        this.turnos = new ArrayList<>(turnos);
+    }
+
+    public List<Equipe> getEquipes() {
+        return equipes;
+    }
+
+    public void setEquipes(List<Equipe> equipes) {
+        this.equipes = new ArrayList<>(equipes);
+    }
+    
 }

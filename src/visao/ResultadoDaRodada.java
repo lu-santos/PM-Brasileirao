@@ -6,13 +6,11 @@
 
 package visao;
 
-import modelo.entidade.Campeonato;
+import controlador.ResultadoRodadaEvent;
 import modelo.entidade.Jogo;
-import modelo.entidade.Rodada;
-//import Servicos.ServicoClassificacaoEquipe;
-//import Servicos.ServicoImportacaoResultado;
 import java.util.*;
-import javax.swing.table.DefaultTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,26 +22,20 @@ public class ResultadoDaRodada extends javax.swing.JInternalFrame {
      * Creates new form ResultadoDaRodada
      */
     
-    private DefaultTableModel modelo;
-//    private ServicoImportacaoResultado servicos;
- //   private ServicoClassificacaoEquipe resultadoRodada;
-    private Campeonato c;
-    private List<Jogo> jogos = new ArrayList<Jogo>();
-    private Rodada r;
+    private ObjectTableModel modelo;
+    private ResultadoRodadaEvent classificacao = new ResultadoRodadaEvent();
+    private Integer anoDoCampeonato;
+    private int numeroRodada;
     
     public ResultadoDaRodada() {
         initComponents();
         
-   /*     servicos = new ServicoImportacaoResultado();
-        servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        selecionarCampeonato.addItem(c.getAno());
-     */   
-        String[] cabecalho = {"Mandante", "Placar", "Visitante"};
-        String[][] dados = {};
-        modelo = new DefaultTableModel(dados, cabecalho);
-        tabelaResultadoRodada.setModel(modelo);
-        
+        try {
+            FuncoesPadroes.addListModelCampeonato(classificacao, selecionarCampeonato);
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!");    
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
 
     /**
@@ -61,7 +53,10 @@ public class ResultadoDaRodada extends javax.swing.JInternalFrame {
         tabelaResultadoRodada = new javax.swing.JTable();
         btnOk = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        labelNumeroRodada = new javax.swing.JLabel();
+        selecionarRodada = new javax.swing.JComboBox();
+        btnVoltarRodada = new javax.swing.JButton();
+        btnAvancarRodada = new javax.swing.JButton();
+        btnOKCamp = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -120,8 +115,31 @@ public class ResultadoDaRodada extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Rodada");
 
-        labelNumeroRodada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        labelNumeroRodada.setText("______");
+        selecionarRodada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        btnVoltarRodada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnVoltarRodada.setText("<<");
+        btnVoltarRodada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarRodadaActionPerformed(evt);
+            }
+        });
+
+        btnAvancarRodada.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnAvancarRodada.setText(">>");
+        btnAvancarRodada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvancarRodadaActionPerformed(evt);
+            }
+        });
+
+        btnOKCamp.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnOKCamp.setText("OK");
+        btnOKCamp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKCampActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,13 +151,19 @@ public class ResultadoDaRodada extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(selecionarCampeonato, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
+                .addComponent(btnOKCamp)
+                .addGap(218, 218, 218)
+                .addComponent(btnVoltarRodada)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(selecionarRodada, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnAvancarRodada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnOk)
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelNumeroRodada)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(tabelaCampeonatoRodada, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(tabelaCampeonatoRodada, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,58 +176,71 @@ public class ResultadoDaRodada extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(selecionarCampeonato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnOk)
-                    .addComponent(labelNumeroRodada))
+                    .addComponent(selecionarRodada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVoltarRodada)
+                    .addComponent(btnAvancarRodada)
+                    .addComponent(btnOKCamp))
                 .addGap(18, 18, 18)
-                .addComponent(tabelaCampeonatoRodada, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
+                .addComponent(tabelaCampeonatoRodada, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
- /*       servicos.lerArquivoXMLExistente("campeonato2013.xml");
-        c = servicos.getCampeonato();
-        int ultimaRodada;
-        int turnoDaRodada;
-        if(c.getListaTurnos().get(1).getListaRodadas().isEmpty()){
-            ultimaRodada = c.getListaTurnos().get(0).getListaRodadas().size()-1;
-            turnoDaRodada = 0;
-        }
-        else{
-            ultimaRodada = c.getListaTurnos().get(1).getListaRodadas().size()-1;
-            int[] numeroRodadaTurno2 = {20, 21, 22, 23, 24, 25, 26, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
-            for(int i = 0; i < numeroRodadaTurno2.length; i++)
-                if(ultimaRodada == i)
-                    ultimaRodada = numeroRodadaTurno2[i];
-            turnoDaRodada = 1;
-        }
-        
-        labelNumeroRodada.setText(String.valueOf(ultimaRodada));
-        
-        r = c.getListaTurnos().get(turnoDaRodada).getListaRodadas().get(ultimaRodada);
-
-        while(modelo.getRowCount()>0){
-            modelo.removeRow(0);
-        }
-
-        if(r.getListaJogos() != null){
-            for(int i = 0; i < r.getListaJogos().size() ; i++){    
-                String mandante = r.getListaJogos().get(i).getMandante().getNome();
-                String placar = r.getListaJogos().get(i).placarJogo();
-                String visitante = r.getListaJogos().get(i).getVisitante().getNome();
-                Object dados [] = {mandante, placar, visitante};
-                modelo.addRow(dados);
-            }
-        }*/
+        anoDoCampeonato = Integer.valueOf((String) selecionarCampeonato.getSelectedItem());
+        numeroRodada = Integer.valueOf((String) selecionarRodada.getSelectedItem());
+        addJogosNaTabela();
     }//GEN-LAST:event_btnOkActionPerformed
+
+    private void btnVoltarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarRodadaActionPerformed
+        anoDoCampeonato = Integer.valueOf((String) selecionarCampeonato.getSelectedItem());
+        if (numeroRodada > 1) {
+            numeroRodada = numeroRodada-1;
+            selecionarRodada.setSelectedIndex(selecionarRodada.getSelectedIndex()-1);
+        }
+        addJogosNaTabela();
+    }
+
+    private void addJogosNaTabela() {
+        try {
+            List<Jogo> jogos = classificacao.getListaDeJogos(anoDoCampeonato, numeroRodada);
+            modelo = new ObjectTableModel(jogos);
+            tabelaResultadoRodada.setModel(modelo); 
+        } catch (Exception ex) {
+            FuncoesPadroes.exibirMensagem(getContentPane(), "Importe o campeonato!"); 
+            Logger.getLogger(ClassificacaoCampeonato.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnVoltarRodadaActionPerformed
+
+    private void btnAvancarRodadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancarRodadaActionPerformed
+        anoDoCampeonato = Integer.valueOf((String) selecionarCampeonato.getSelectedItem());
+        if (numeroRodada < 38 && numeroRodada > 0) {
+            numeroRodada = numeroRodada+1;
+            selecionarRodada.setSelectedIndex(selecionarRodada.getSelectedIndex()+1);
+        }
+        addJogosNaTabela();
+    }//GEN-LAST:event_btnAvancarRodadaActionPerformed
+
+    private void btnOKCampActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKCampActionPerformed
+        anoDoCampeonato = Integer.valueOf(String.valueOf(selecionarCampeonato.getSelectedItem()));
+        try {
+            FuncoesPadroes.addListModelRodada(classificacao, selecionarRodada, anoDoCampeonato);
+        } catch (Exception ex) {
+            Logger.getLogger(ResultadoDaRodada.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnOKCampActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAvancarRodada;
+    private javax.swing.JButton btnOKCamp;
     private javax.swing.JButton btnOk;
+    private javax.swing.JButton btnVoltarRodada;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel labelNumeroRodada;
     private javax.swing.JComboBox selecionarCampeonato;
+    private javax.swing.JComboBox selecionarRodada;
     private javax.swing.JScrollPane tabelaCampeonatoRodada;
     private javax.swing.JTable tabelaResultadoRodada;
     // End of variables declaration//GEN-END:variables

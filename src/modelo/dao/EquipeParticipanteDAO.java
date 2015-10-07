@@ -5,59 +5,73 @@
  */
 package modelo.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.entidade.EquipeParticipante;
 
 /**
  *
  * @author Amanda
  */
-public class EquipeParticipanteDAO implements BaseCrudDAO<EquipeParticipante>{
+public class EquipeParticipanteDAO extends BaseCrudDAO<EquipeParticipante>{
     private final String nomeDaTabela = "tabela_equipe_participante";
-    private String query;
     private static ConexaoDAO conexao;
-    private Connection conectar;
     
     public EquipeParticipanteDAO(ConexaoDAO conexao) {
-        this.conexao = conexao;
+        super(conexao);
     }
     
     @Override
-    public void incluir(EquipeParticipante t) throws Exception {
-        query = "INSERT INTO " + nomeDaTabela + "(id_equipe, id_campeonato) "
-                + "VALUES(?, ?);";
-        conectar = conexao.abrirConexao();
-        PreparedStatement pst = conectar.prepareStatement(query);
-        pst.setInt(1, t.getIdEquipe());
-        pst.setInt(2, t.getIdCampeonato());
-        pst.executeUpdate();
-        conexao.fecharConexao();
+    public String getQueryDeInclusao() {
+        return "INSERT INTO " + nomeDaTabela + "(id_equipe, id_campeonato, indicador) " + "VALUES(?, ?, ?);";
     }
 
     @Override
-    public void atualizar(EquipeParticipante t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeListar() {
+        return "SELECT * FROM " + nomeDaTabela;
     }
 
     @Override
-    public EquipeParticipante visualizar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeRegistro() {
+        return "SELECT * FROM " + nomeDaTabela + " WHERE id_participante = ";
     }
 
     @Override
-    public void excluir(EquipeParticipante t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public EquipeParticipante getEntidade(ResultSet registro) {
+        EquipeParticipante participante;
+        try {
+            participante = new EquipeParticipante();
+            int id_equipe_participante = registro.getInt("id_participante");
+            int id_equipe = registro.getInt("id_equipe");
+            int id_campeonato = registro.getInt("id_campeonato");
+            String indicador = registro.getString("indicador");
+            participante.setIdParticipante(id_equipe_participante);
+            participante.setIdEquipe(id_equipe);
+            participante.setIdCampeonato(id_campeonato);
+            participante.setIndicador(indicador);
+            return participante;
+        } catch (SQLException ex) {
+            Logger.getLogger(EquipeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     @Override
-    public List<EquipeParticipante> listar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void incluirDadosNoBanco(PreparedStatement pst, EquipeParticipante entidade) {
+        try {
+            pst.setInt(1, entidade.getIdEquipe());
+            pst.setInt(2, entidade.getIdCampeonato());
+            pst.setString(3, entidade.getIndicador());
+        } catch (SQLException ex) {
+            Logger.getLogger(EquipeParticipanteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public EquipeParticipante getRegistro(int id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getQueryDeExiste(EquipeParticipante participante) {
+        return "SELECT DISTINCT * FROM " + nomeDaTabela + " WHERE id_equipe = " + participante.getIdEquipe() + " AND id_campeonato = " + participante.getIdCampeonato();
     }
 }

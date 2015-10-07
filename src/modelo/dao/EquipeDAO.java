@@ -5,110 +5,72 @@
  */
 package modelo.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.entidade.Equipe;
 
 /**
  *
  * @author Amanda
  */
-public class EquipeDAO implements BaseCrudDAO<Equipe>{
+public class EquipeDAO extends BaseCrudDAO<Equipe>{
     private final String nomeDaTabela = "tabela_equipe";
-    private String query;
     private static ConexaoDAO conexao;
-    private Connection conectar;
     
     public EquipeDAO(ConexaoDAO conexao) {
-        this.conexao = conexao;
+        super(conexao);
+    }
+
+    @Override
+    public String getQueryDeInclusao() {
+        return "INSERT INTO " + nomeDaTabela + "(nome, indicador) " + "VALUES(?, ?);";
+    }
+
+    @Override
+    public String getQueryDeListar() {
+        return "SELECT * FROM " + nomeDaTabela;
+    }
+
+    @Override
+    public String getQueryDeRegistro() {
+        return "SELECT * FROM " + nomeDaTabela + " WHERE nome = ";
+    }
+
+    @Override
+    public Equipe getEntidade(ResultSet registro) {
+        Equipe equipe;
+        try {
+            equipe = new Equipe();
+            int id_equipe = registro.getInt("id_equipe");
+            String nome = registro.getString("nome");
+            String indicador = registro.getString("indicador");
+            equipe.setIdEquipe(id_equipe);
+            equipe.setNome(nome.trim());
+            if (indicador != null)
+                equipe.setIndicador(indicador.trim());
+            return equipe;
+        } catch (SQLException ex) {
+            Logger.getLogger(EquipeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public void incluirDadosNoBanco(PreparedStatement pst, Equipe entidade) {
+        try {
+            pst.setString(1, entidade.getNome());
+            pst.setString(2, entidade.getIndicador());
+        } catch (SQLException ex) {
+            Logger.getLogger(EquipeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public String getQueryDeExiste(Equipe equipe) {
+        return "SELECT DISTINCT * FROM " + nomeDaTabela + " WHERE nome = '" + equipe.getNome() + "'";
     }
     
-    @Override
-    public void incluir(Equipe t) throws Exception {
-        query = "INSERT INTO " + nomeDaTabela + "(nome, indicador) "
-                + "VALUES(?, ?);";
-        conectar = conexao.abrirConexao();
-        PreparedStatement pst = conectar.prepareStatement(query);
-        pst.setString(1, t.getNome());
-        pst.setString(2, t.getIndicador());
-        pst.executeUpdate();
-        conexao.fecharConexao();
-    }
-
-    @Override
-    public void atualizar(Equipe t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Equipe visualizar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void excluir(Equipe t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Equipe> listar() throws Exception {
-        PreparedStatement stmt = null;
-        ResultSet registro = null;
-        conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela; 
-        List<Equipe> equipes = new ArrayList<>();
-        
-        try{
-            stmt = conectar.prepareStatement(query);
-            registro = stmt.executeQuery();
-            while(registro.next()){
-                Equipe equipe = null;
-                equipe = registrarDados(registro, equipe);
-                equipes.add(equipe);
-            }
-        }catch(SQLException e){
-            System.out.println("Erro na listagem de equipe: " + e.getMessage());
-        }finally{
-            conexao.fecharConexao();
-        }
-        return equipes; 
-    }
-
-    @Override
-    public Equipe getRegistro(int id) throws Exception {
-        PreparedStatement stmt = null;
-        ResultSet registro = null;
-        
-        conectar = conexao.abrirConexao();
-        query = "SELECT * FROM " + nomeDaTabela + " WHERE id_equipe = " + id; 
-        Equipe equipe = null;
-        try{
-            stmt = conectar.prepareStatement(query);
-            registro = stmt.executeQuery();
-            while(registro.next()){
-                equipe = registrarDados(registro, equipe);
-            }
-        }catch(SQLException e){
-            System.out.println("Erro ao pesquisar registro" + e.getMessage());
-        }finally{
-            conexao.fecharConexao();
-        }
-        return equipe; 
-    }
-    
-    private Equipe registrarDados(ResultSet registro, Equipe equipe) throws SQLException {
-        equipe = new Equipe();
-        int id_equipe = registro.getInt("id_equipe");
-        String nome = registro.getString("nome");
-        String indicador = registro.getString("indicador");
-        equipe.setIdEquipe(id_equipe);
-        equipe.setNome(nome.trim());
-        if (indicador != null)
-            equipe.setIndicador(indicador.trim());
-        return equipe;
-    }
 }
